@@ -79,13 +79,17 @@
 
 
 
+<meta name="description" content="Incremental change is better than ambitious failure.">
+<meta name="keywords" content="coder">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Yang‘s Blog">
+<meta property="og:title" content="Yang’s Blog">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Yang‘s Blog">
+<meta property="og:site_name" content="Yang’s Blog">
+<meta property="og:description" content="Incremental change is better than ambitious failure.">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yang‘s Blog">
+<meta name="twitter:title" content="Yang’s Blog">
+<meta name="twitter:description" content="Incremental change is better than ambitious failure.">
 
 
 
@@ -121,7 +125,7 @@
 
 
 
-  <title>Yang‘s Blog</title>
+  <title>Yang’s Blog</title>
   
 
 
@@ -152,7 +156,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Yang‘s Blog</span>
+        <span class="site-title">Yang’s Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -291,16 +295,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/07/e5-a6-82-e4-bd-95-e4-bd-bf-e7-94-a8pdfbox-e6-8a-bd-e5-8f-96-e5-88-86-e5-88-97-e7-9a-84pdf-e9-a1-b5-e9-9d-a2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/07/20190507-pdfbox/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
+      <meta itemprop="name" content="Yang’s Blog">
     </span>
 
     
@@ -310,7 +314,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/07/e5-a6-82-e4-bd-95-e4-bd-bf-e7-94-a8pdfbox-e6-8a-bd-e5-8f-96-e5-88-86-e5-88-97-e7-9a-84pdf-e9-a1-b5-e9-9d-a2/" itemprop="url">如何使用PDFbox抽取分列的PDF页面</a></h1>
+                <a class="post-title-link" href="/2019/05/07/20190507-pdfbox/" itemprop="url">如何使用PDFbox抽取分列的PDF页面</a></h1>
         
 
         <div class="post-meta">
@@ -328,7 +332,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T16:07:52+08:00">
+                2019-05-14
+              </time>
             
           </span>
 
@@ -358,6 +374,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/07/20190507-pdfbox/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/07/20190507-pdfbox/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -384,34 +410,17 @@
       
         
           
-            <p>在尝试抽取PDF文档的过程中，了解到了Java下面有个PDFbox包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。</p>
-<p><strong>PDF Structure</strong></p>
-<p><code>`</code><br> +--------------------------+<br> | +----------------------+ |<br> | |        Header        | |  &lt;—–文件头，表示版本.%PDF-1.M<br> | |                      | |<br> | +----------------------+ |<br> | |                      | |<br> | |         Body         | |  &lt;—–文件体，由一系列PDF对象组成<br> | |                      | |<br> | |                      | |<br> | |                      | |<br> | |                      | |<br> | |                      | |<br> | +----------------------+ |<br> | |    Cross-reference   | |  &lt;—–交叉引用表，包含指向所有间接<br> | |         table        | |        对象的文件位置索引的列表<br> | |        (xref)        | |<br> | +----------------------+ |<br> | |        Trailer       | |  &lt;—–包含文件的根节点信息和<br> | |                      | |        文件解析的起点信息<br> | +----------------------+ |<br> +————————–+</p>
-<p>本文主要解决的问题是针对有两列或者多列的页面，提取其中的文字。这一点根据 @mkl的提示，实现了基本的demo。这里是 stackoverflow 下的一个问题及mkl的回答。<a href="https://stackoverflow.com/questions/26233387/extract-pdf-text-by-columns" target="_blank" rel="noopener">extract PDF text by columns</a></p>
-<blockquote>
-<p>PDFBox does not analyze the page content to recognize columns. If you do the analysis, though, it allows you to extract text column by column if you provide the column rectangles as reguions.</p>
-</blockquote>
-<p>StringBuilder pdfText = new StringBuilder();<br>// 重写 writeString(String, List<textposition>)方法以加载更多文本的信息，增加使用字体的名称来扩展文本信息<br>PDFTextStripperByArea stripper = new PDFTextStripperByArea()；</textposition></p>
-<p>stripper.setSortByPosition(true);<br>// 定位到左边一栏的页面<br>Rectangle rectLeft = new Rectangle(10, 60, 320, 820);<br>// 定位到右边一栏的页面<br>Rectangle rectRight = new Rectangle(330, 60, 320, 820);</p>
-<p>stripper.addRegion(“leftColumn”, rectLeft);</p>
-<p>stripper.addRegion(“rightColumn”, rectRight);</p>
-<p>PDPageTree allPages = document.getDocumentCatalog().getPages();<br>int pageNumber = document.getNumberOfPages();</p>
-<p>String leftText = “”;<br>String rightText = “”;</p>
-<p>for (int i = 0; i &lt; pageNumber; i++) {</p>
-<pre><code>PDPage page = (PDPage) allPages.get(i);
-
-stripper.extractRegions(page);
-leftText = stripper.getTextForRegion(&quot;leftColumn&quot;);
-rightText = stripper.getTextForRegion(&quot;rightColumn&quot;);
-
-pdfText.append(leftText);
-pdfText.append(rightText);
-
-System.out.println(&quot;Page number &quot;+ i);
-</code></pre><p>}</p>
-<p>其中这里的列的边界，是不断尝试获取的。</p>
-
-          
+          在尝试抽取PDF文档的内容时，了解到了Java下面有个PDFbox的工具包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。
+PDF Structure
+123456789101112131415161718|--------------------------
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/07/20190507-pdfbox/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -463,11 +472,11 @@ System.out.println(&quot;Page number &quot;+ i);
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
+      <meta itemprop="name" content="Yang’s Blog">
     </span>
 
     
@@ -477,7 +486,7 @@ System.out.println(&quot;Page number &quot;+ i);
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/20/use-git-clearly/" itemprop="url">清楚地使用git</a></h1>
+                <a class="post-title-link" href="/2019/03/20/use-git-clearly/" itemprop="url">use git clearly</a></h1>
         
 
         <div class="post-meta">
@@ -495,7 +504,19 @@ System.out.println(&quot;Page number &quot;+ i);
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T16:21:30+08:00">
+                2019-05-14
+              </time>
             
           </span>
 
@@ -525,6 +546,16 @@ System.out.println(&quot;Page number &quot;+ i);
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/20/use-git-clearly/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/20/use-git-clearly/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -551,16 +582,16 @@ System.out.println(&quot;Page number &quot;+ i);
       
         
           
-            <p>在今天，决定从此正式将日常的代码发布到自己的GitHub上，并为此创建了一个新的GitHub账号——flowerlake。在使用的过程中，其实一直有一些问题没有搞清楚git的使用。本篇文章记录一下使用git中遇见的问题及解决方法。</p>
-<p>有两种方式来上传到GitHub上：<br>1、使用开发工具自带的版本控制插件<br>比如 webstorm自带的版本控制。这个首先在 File-&gt;Setting-&gt;GitHub, 在里面输入Host、账号和密码即可。git注意配置一下本机的git路径。</p>
-<p><img src="https://www.getyo.cn/wp-content/uploads/2019/03/webstormSetting.jpg" alt></p>
-<p>File-&gt;Setting-&gt;Version Control-&gt;GitHub</p>
-<p>2、 在控制台中使用git进行版本控制<br>git init（初始化项目）<br>git add filename.xxx (这里是文件，文件夹的话需要在add后面加上-f)<br>git commit “some words to describe this modification”<br>git push -u origin master (这里是指上传到当前的master分支)  </p>
-<p>创建一个初始的仓库后会有怎么上传代码的提示，这里就不再赘述。<br>还有一个问题如下：</p>
-<p>在push的过程中，出现了这个错误。<br><a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>: Permission denied (publickey). fatal: Could not read from remote repository.<br>这是因为在创建完本地的ssh私钥之后，GitHub那边的服务器并没有连接你的钥匙，这样两者是无法进行通信的，因此在使用ssh-kengen船舰私钥之后还要把私钥的内容加入到你的GitHub账号里。在GitHub上具体的描述。<br>解决链接：<br><a href="https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" target="_blank" rel="noopener">https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent</a></p>
-<p>另附上git的官网学习链接： <a href="https://git-scm.com/book/zh/v2/" target="_blank" rel="noopener">https://git-scm.com/book/zh/v2/</a></p>
-
-          
+          在今天，决定从此正式将日常的代码发布到自己的GitHub上，并为此创建了一个新的GitHub账号——flowerlake。在使用的过程中，其实一直有一些问题没有搞清楚git的使用。本篇文章记录一下使用git中遇见的问题及解决方法。
+有两种方式来上传到GitHub上：1、使用开发工具自带的版本控制插件
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/20/use-git-clearly/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -607,16 +638,16 @@ System.out.println(&quot;Page number &quot;+ i);
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/20/2018-e5-b9-b4-e5-ba-a6-e6-84-9f-e6-82-9f/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/20/20190120-2018/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
+      <meta itemprop="name" content="Yang’s Blog">
     </span>
 
     
@@ -626,7 +657,7 @@ System.out.println(&quot;Page number &quot;+ i);
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/20/2018-e5-b9-b4-e5-ba-a6-e6-84-9f-e6-82-9f/" itemprop="url">2018年度感悟</a></h1>
+                <a class="post-title-link" href="/2019/01/20/20190120-2018/" itemprop="url">2018年度感悟</a></h1>
         
 
         <div class="post-meta">
@@ -644,7 +675,19 @@ System.out.println(&quot;Page number &quot;+ i);
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T16:21:41+08:00">
+                2019-05-14
+              </time>
             
           </span>
 
@@ -674,6 +717,16 @@ System.out.println(&quot;Page number &quot;+ i);
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/20/20190120-2018/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/20/20190120-2018/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -699,20 +752,14 @@ System.out.println(&quot;Page number &quot;+ i);
 
       
         
-          
-            <p>时间：2018年12月29日15:10:59</p>
-<p>12.23结束考研的生活，好像一瞬间就回到了放纵自己的生活。考研之前时间紧迫，总是在想着我考完研可以做什么，可以干些什么事情。但是这一天真正来的时候，却未曾想考研的四个月的复习就这么快的结束了。生活总是喜欢给人一些措手不及。</p>
-<p>回顾这三四个月的复习时间，真正让自己懂得了什么，收获了什么，似乎这一切随着考研的结束，当时的态度也很容易随着环境的改变而快速消逝。如今写下这篇文章的时候，记忆里没有多少的苦痛，却也没有多少的欢乐，唯一伴随考研的最美好的信念可能便是对未来美好生活的向往了吧。当这一切结束的时候，却多少失去了对生活的期盼，不是说消沉了斗争的意志，只是突然意识到生活的残酷——即使再努力，我们所追求的，我们所向往的vision都不会因为一次的考研成功来到你身边，甚至不会有什么改变。这种变化或者对于人生轨迹的改变或是潜移默化的，或是微乎其微的。</p>
-<p>这多少听起来有一丝丝的悲壮，我也内心中一直明白自己是一个悲观主义者，有些人可能会说乐观一点。我却早已厌烦了这种说法，有时候会很讨厌自己，讨厌自己面对事情的消极态度，讨厌自己的悲观情绪，自己也知道自己做不到那么豁达。性格问题我一直都有，我也很清楚这个问题，我会后悔自己被情绪左右时做出的事情，我会对那些尴尬的说来暂称之为阴影的地方记忆尤甚。这样的事件大概有三件吧，第一件是我发生在小学时期的事情，因为打篮球被一个高年级的警告嘲讽，从此以后再也没有打过篮球，这些事情多少听起来有些好笑。本来以为写下这段经历，能让自己有所放下，写到上面一句的时候，自己已经无法继续写下去了，感觉令人好笑又多少会让人觉得有些矫情。呵呵</p>
-<p>回到考研吧。</p>
-<p>这多少听起来有一丝的悲壮。成功者可以任意书写自己的成功，失败者却只能吞下自己失败的苦果。不知是不是因为自己经历了太多的失败，亦或者自己的期望和自己所得到的相距甚远，这些经历让我更加懂得失败的滋味，这可能导致了一定的抑郁吧。我把这些归因于自己从小和姐姐生活在一起，心思过于细腻，对待事物很敏感。曾经有过一段时间，大概处于大学的人生得意时刻，那个时候心里面认为失败者不值得同情，这就是个弱肉强食的时代。失败的时候个人却又处于失败的同一面，这让人不禁感喟，你看苍天绕过谁。大概在人生的某个阶段，自己少了些那点温度，缺乏爱，不懂得爱，也懒得去爱了。说到底，自己也不懂得自己究竟是心思敏感，还是得了抑郁症，曾经有过一段时间，在网上查看抑郁症的资料。大喜大悲者也。多年来，自己一直养成了审视自己内心的习惯，在这个阶段中，总是在处于否定、肯定、否定、肯定的反反复复的阶段，但总归是否定多余了肯定。我或许知道自己自身存在的问题，或许自己没有发掘到自己身上存在的根源在哪。</p>
-<p>我可能是无法认清自己，可是认清了又怎么样，我就是个菜鸡，可我就想要不断的进步，我就想要成功。</p>
-<p>说起来，今天突然决定写一写什么东西，还是因为看到了知乎上关于决定不保研的一片文章，里面说到一句话（我向来喜欢收集这些很有正能量的话。听起来很酷而已。），It is not our abilities that show what we truely are, it is our choices.想想自己的根源是什么呢？我想向很多人证明自己，向导师，向干部，向亲友，向那个我着迷的人，这真是个愚蠢的想法。我太过于想要证明自己了，套用一句话，道理我都懂。</p>
-<p>自己考完试之后，漂流了好几天了。抵不过玩乐的诱惑，说的多做得少吗？可我可能接下来两天还不会真正继续奋斗起来。是鲁迅说过的么，言语上的巨人，行动上的矮子。所以，为什么要停下奋斗呢，人生还只是个开始，我不会停下前进的脚步，考研失败了又如何，考研成功了又如何，我想在此记录下真正成功的要诀，写这么多都差点忘记了这些了。通过这些天的复习历程，发现了成功的几大要素，主要是坚持，大家都明白。很多人也都说过有的人可能看起来很努力，但是那些努力并不是有效的努力，这个世界就是这么奇妙，需要用脑子的。我想我找到了走向成功的办法，那就是养成一个良好的习惯。这个习惯是方方面面的，生活的，学习上的。成功绝不是一蹴而就的，一个很良好的学习习惯，一个良好的生活习惯，杜绝无效的努力，可能我们自己努力的时候，并不知道自己的努力究竟有没有效果，可以拿一个粗暴的指标来判断这一点，就是你努力的这个阶段你是不是很痛苦，看晦涩的英文文章，健身等等。归根到底是我们对于这个痛苦的承受程度，当有一天不再觉得你所做的这些事情不是累赘了，不再痛苦了，那么这些习惯可能已经养成了，已经内化到自身的骨髓里去了。</p>
-<p>所以，接下里塑造一个良好的生活习惯吧，首先呢，从不熬夜开始。</p>
-<p>今天写下这个的时候已经是12月29日了，过两天是不是应该写一写今年的年度总结了。</p>
-
-          
+          Welcome to my blog, enter password to read.
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/20/20190120-2018/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -759,16 +806,16 @@ System.out.println(&quot;Page number &quot;+ i);
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/20/d3-e5-ad-a6-e4-b9-a0-e8-b5-84-e6-ba-90-ef-bc-88-e6-8c-81-e7-bb-ad-e6-9b-b4-e6-96-b0-ef-bc-89/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/20/20190120-d3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
+      <meta itemprop="name" content="Yang’s Blog">
     </span>
 
     
@@ -778,7 +825,7 @@ System.out.println(&quot;Page number &quot;+ i);
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/20/d3-e5-ad-a6-e4-b9-a0-e8-b5-84-e6-ba-90-ef-bc-88-e6-8c-81-e7-bb-ad-e6-9b-b4-e6-96-b0-ef-bc-89/" itemprop="url">d3学习资源（持续更新）</a></h1>
+                <a class="post-title-link" href="/2019/01/20/20190120-d3/" itemprop="url">d3学习资源（持续更新）</a></h1>
         
 
         <div class="post-meta">
@@ -796,7 +843,19 @@ System.out.println(&quot;Page number &quot;+ i);
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T15:31:32+08:00">
+                2019-05-14
+              </time>
             
           </span>
 
@@ -826,151 +885,15 @@ System.out.println(&quot;Page number &quot;+ i);
 
           
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>知乎学习经验<a href="https://www.zhihu.com/question/22171866" target="_blank" rel="noopener">https://www.zhihu.com/question/22171866</a></p>
-<p>YouTube上的视频<a href="https://www.youtube.com/watch?v=8jvoTV54nXw" target="_blank" rel="noopener">https://www.youtube.com/watch?v=8jvoTV54nXw</a>  </p>
-<p>博客网站（by 馒头华华）<a href="http://d3.decembercafe.org/pages/lessons/2.html" target="_blank" rel="noopener">http://d3.decembercafe.org/pages/lessons/2.html</a>  </p>
-<p>svg教程（first to learn）<a href="http://www.runoob.com/svg/svg-tutorial.html" target="_blank" rel="noopener">http://www.runoob.com/svg/svg-tutorial.html</a>  </p>
-<p>observe学习网站（d3 gallery）<a href="https://beta.observablehq.com/" target="_blank" rel="noopener">https://beta.observablehq.com/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/06/e6-b5-8b-e8-af-95-e6-97-a5-e5-bf-97-trashed/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="花池开">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/06/e6-b5-8b-e8-af-95-e6-97-a5-e5-bf-97-trashed/" itemprop="url">测试日志</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-06T19:52:11+08:00">
-                2018-11-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/未分类/" itemprop="url" rel="index">
-                    <span itemprop="name">未分类</span>
-                  </a>
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
                 </span>
-
-                
-                
-              
-            </span>
-          
-
-          
+                <a href="/2019/01/20/20190120-d3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/01/20/20190120-d3/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -998,9 +921,17 @@ System.out.println(&quot;Page number &quot;+ i);
       
         
           
-            <p>测试。</p>
-
-          
+          知乎学习经验https://www.zhihu.com/question/22171866
+YouTube上的视频https://www.youtube.com/watch?v=8jvoTV54nXw  
+博客网站（by 馒头华华）http://d3.decembercafe.org/pages/l
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/20/20190120-d3/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1052,11 +983,11 @@ System.out.println(&quot;Page number &quot;+ i);
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
+      <meta itemprop="name" content="Yang’s Blog">
     </span>
 
     
@@ -1084,7 +1015,19 @@ System.out.println(&quot;Page number &quot;+ i);
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T15:47:51+08:00">
+                2019-05-14
+              </time>
             
           </span>
 
@@ -1108,22 +1051,21 @@ System.out.println(&quot;Page number &quot;+ i);
 
                 
                 
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/未分类/" itemprop="url" rel="index">
-                    <span itemprop="name">未分类</span>
-                  </a>
-                </span>
-
-                
-                
               
             </span>
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/06/about-python/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/06/about-python/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1151,66 +1093,19 @@ System.out.println(&quot;Page number &quot;+ i);
       
         
           
-            <p>按照Python的几个应用点来总结的。</p>
-<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><ul>
-<li><a href="https://www.liaoxuefeng.com/" target="_blank" rel="noopener">廖雪峰</a>的网站</li>
-</ul>
-<p>很好的Python、JavaScript、Git学习网站，使用的时候建议配上Chrome的插件adblock。有时候也可以充当一个函数查找的功能，有一些内置函数的介绍和例子。 我的Python学习之路就是从这里开始的，别的书也没怎么看过。</p>
-<h2 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h2><ul>
-<li><a href="http://www.icourse163.org/learn/BIT-1001870001?tid=1001962001#/learn/announce" target="_blank" rel="noopener">Python网络爬虫与信息提取</a></li>
-</ul>
-<p>这个课是在中国大学MOOC上的，老师是北理的嵩天老师，老师讲课一幅很稳的样子，老师本文讲课说话的水平也很高。当然这个只是入门。同时，嵩天老师在中国大学MOOC上也有很多其他Python学习的视频，可以根据自己的兴趣学习，其他的一些我都没有完整看完，所以在此处不做推荐。我之所以没有看完，不是因为讲的不好，是因为我个人的惰性原因。</p>
-<ul>
-<li>一本书 ：Python网络数据采集</li>
-</ul>
-<p>emmm、我有电子版的书籍。我基本上是跟着全书的做了一遍，书的质量也很高。</p>
-<ul>
-<li><a href="http://scrapy-chs.readthedocs.io/zh_CN/latest/intro/overview.html" target="_blank" rel="noopener">Python的爬虫框架scrapy</a></li>
-</ul>
-<p>说实话，我用这个用的不怎么样，也没有好好学这个框架。不过这个框架确实是一个很优秀的框架，会让你有一个基本的项目思想。这个框架的学习的话直接看官方文档最好了，而且还有中文版的。 上述的东西可能就有点多了，但是慢慢来就行，视频的话可以倍速看，但是要边看边自己动手操作。第二本书可以翻阅，根据自己的弱项专门看就行。第三个项目文档可以作为检阅的工具，需要的时候差一下就行。 <strong>几个练手的项目</strong></p>
-<ul>
-<li><p>80s.tw, 经常在上面下载电影，网站不复杂，可以练练手。</p>
-</li>
-<li><p>知乎, 这个其实有点复杂，中间有些东西需要自己摸索，这样可以快速成长。</p>
-</li>
-</ul>
-<p>有些网站我也记不清了，不过我还真没像很多文章一样就知道爬妹子图，0.0，爬虫技术的增加，就是在不断的挑战反爬虫机制。所以进阶的话，就不断地去做，大量的对单个网页，一个域名下的所有网站，挑战设置了很多反爬虫策略的网站。 对、还有一个资源是ip池，也可以自己爬，但是感觉用的效果一般。推荐一个卖ip的地方。</p>
-<ul>
-<li><a href="http://www.daxiangdaili.com/" target="_blank" rel="noopener">大象大理IP</a>, 推荐计数版的，5块钱20000个ip。可以用半年。</li>
-</ul>
-<h2 id="数据科学领域"><a href="#数据科学领域" class="headerlink" title="数据科学领域"></a>数据科学领域</h2><p>目前其实个人在这方面没有深究，主要是一些简单的库使用。只推荐自己使用过的。</p>
-<ul>
-<li><p>numpy， Python自身没有数组的，在Python中用列表的概念，numpy提供了这个，而且，有很多向量化的操作在神经网络的搭建中被大量使用。</p>
-</li>
-<li><p>pandas， 我基本上就是用它来处理表格数据，使用的时候也很强大，面对上百万条数据也不虚，前提是你不要使用循环遍历DataFrame。它的操作有点像并行操作。我目前就用它来做数据预处理的工作。</p>
-</li>
-<li><p><a href="http://sklearn.apachecn.org/cn/0.19.0/index.html" target="_blank" rel="noopener">scikit-learn</a>， 数据挖掘和数据分析工具，提供了很多算法的函数。提供中文文档，用的时候查文档就行了，不用单独学习。</p>
-</li>
-<li><p>SciPy， 这个我没怎么用个，也是我下一阶段要学习的库。</p>
-</li>
-<li><p>matplotlib， 数据科学怎么能少得了数据可视化，用这个库就可以直接作图看结果了，还是可以的。现在不是也有一个叫做数据可视化过程嘛，就是把神经网络的学习过程用可视化表现出来。感觉很酷。</p>
-</li>
-</ul>
-<p>暂时就这么多吧，这个我没怎么利用教程，主要看文档吧，前两个和第三个我有电子书。scikitlearn用官方文档就行。优先学习前两个库，numpy和pandas。</p>
-<h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2><p>先说学习资源吧、</p>
-<ul>
-<li><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432170876125c96f6cc10717484baea0c6da9bee2be4000#0" target="_blank" rel="noopener">廖雪峰的网站</a></li>
-</ul>
-<p>在廖雪峰的网站Python章节中的最后一节有一个web开发实战。这个实战的难度相对来说还是比较大的，要从头自己写框架、写orm、写MVC等等。这些知识需要Python前面的知识学的很扎实才能很好的完成。 除了自己写这些框架之外，还可以使用Python的两个流行框架django和flask，使用框架相较于前面的从头自己做少写了很多代码。flask没用过，就不说了。</p>
-<ul>
-<li><a href="http://www.liujiangblog.com/course/django/108" target="_blank" rel="noopener">刘江的博客及教程</a></li>
-</ul>
-<p>django的两个博客之一，可以查阅一下整个流程。有一些内容是不需要的，就没必要去做了，比如自动化部署等部分的内容。</p>
-<ul>
-<li><a href="https://docs.djangoproject.com/en/2.0/" target="_blank" rel="noopener">Django documentation</a></li>
-</ul>
-<p>Django2.0的官方文档，很全，很细致，需要英语水平差不多。还有很多bug的解决方法在其<a href="https://code.djangoproject.com/" target="_blank" rel="noopener">官网code</a>都能找到解决办法。 emmm、用框架不可耻。不过我们需要能在现有框架的基础上达到能自己拿到框架源码，根据自己的需求等去修改、完善这个框架才是正解。 其实web开发需要的知识面不仅仅涉及到后端，同样的前端和后端的结合也是一个很重要的问题，即前后端数据的传递，前端页面的设计，对于我们不是专门做UI设计的来说，前端页面在网上找一找模板就行，比如bootstrap模板等。 同时Python web开发的一整个框架如下图所示，搞懂了这个web框架也就理清了怎么开始开发web的这个问题了。</p>
-<ul>
-<li><img src="http://bhsy.getyo.cn/static/image2/others/Python开发体系.jpg" alt></li>
-</ul>
-<p>哦、我还有Django开发的一本电子书。 待更。</p>
+          按照Python的几个应用点来总结的。
+基础语法
+廖雪峰的网站
 
-          
+很好的Python、JavaScript、Git学习网站，使用的时候建议配上Chrome的插件adblock。有时候也可以充当一个函数查找的功能，有一些内置函数的介绍和例子。 我的Python学习之路就是从这里开始的，别的书也没怎么看
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/06/about-python/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1257,16 +1152,16 @@ System.out.println(&quot;Page number &quot;+ i);
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/06/2017s/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/06/20181106-2017/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
+      <meta itemprop="name" content="Yang’s Blog">
     </span>
 
     
@@ -1276,7 +1171,7 @@ System.out.println(&quot;Page number &quot;+ i);
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/06/2017s/" itemprop="url">2017年总结</a></h1>
+                <a class="post-title-link" href="/2018/11/06/20181106-2017/" itemprop="url">2017年年度总结</a></h1>
         
 
         <div class="post-meta">
@@ -1294,7 +1189,19 @@ System.out.println(&quot;Page number &quot;+ i);
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T16:20:49+08:00">
+                2019-05-14
+              </time>
             
           </span>
 
@@ -1324,6 +1231,184 @@ System.out.println(&quot;Page number &quot;+ i);
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/06/20181106-2017/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/06/20181106-2017/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          Welcome to my blog, enter password to read.
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/06/20181106-2017/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/20/Java-learning-note/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="花池开">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/head.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yang’s Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/20/Java-learning-note/" itemprop="url">Java基础知识学习笔记（持续更新）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-20T00:00:00+08:00">
+                2018-01-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T15:45:37+08:00">
+                2019-05-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/20/Java-learning-note/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/20/Java-learning-note/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1350,9 +1435,20 @@ System.out.println(&quot;Page number &quot;+ i);
       
         
           
-            <h2 id="2017年度总结"><a href="#2017年度总结" class="headerlink" title="2017年度总结"></a><strong>2017年度总结</strong></h2><p>> 2018.1.3 00:20更新 16年的时候还没有年度总结的意识，那就今年开始吧，加油，scarecrow. 回顾整个的一年，说实话我脑海里确实剩下不多的东西了。这一年过得并不是很充实，尤其是10月份朝后，甚至可以说是空虚、荒诞、浮躁。没有养成一个好的习惯，反倒是抱怨越来越多，这个我不仅要从他人身上找原因，更要找自己的原因，自己这一年以来心态一直跌宕起伏，说到底还是没有养成一个理性的思维和多方面看待问题的能力。与他人相处，性格过于个性。 年度总结不是开批斗大会，我要在一个总结中认识到自己的不足。进步了哪些，完成了什么、学会了什么、未完成什么，什么样的毛病依旧存在。在自省中认识自己，提升自己。 其实，有女神的日子真好，无论她是否给予了你什么，可女神带给我的仿佛是有源源不断的奋斗的动力，就好似浑身充满了力量一般。 别人家的女神可能只是好看，可我的女神不仅好看，还特别有气质。 学习方面 - Python的学习 熟练掌握了爬虫的基本知识，包括xpath、beautifulsoup、re库的使用，还掌握了如何处理登录的问题，代理的问题，爬虫框架scrapy的实际项目运行。 - 竞赛方面 今年上半年取得了军事数学建模的全军二等奖，下学期的全国大学生数学建模省三，成绩并不是很好，来年要再接再厉。 - 优秀学员的荣誉 这对我个人而言是一个极大的鼓舞，毕竟一开始的确没有选我，但是后来名单里面却有我，显然是干部还是很认可我的工作的，来年加油。 接下来要学习的任务还很重，包括JavaScript的学习、深度学习、tensorflow的学习、吴恩达课程的跟进和实践，蓝桥杯的准备。 这学期的专业课程学习的很不好，上学期勉勉强强拿到了专业第三的成绩，这学期的成绩很不理想，大家都在认真学习，就我在退步，因为一款游戏毁了自己的成绩，同时自己的心态的确不是很好，要接受批评，心放宽一点。学会和教员沟通交流，这学期刚开学的时候状态很好，这学期开头都不想睡觉了，不知道为什么到了第二个月又旧病复发了，说到底很可能是精力管理的原因。让自己好好休息，充值精力。 - - - &gt; 2018.1.4 17:23 更新 不足： - 最重要的一点大概就是情绪的原因了吧 这一年感情跌跌宕宕的，从2017年6月份和她分手之后，整个人一直没有找到该有的状态，渴望挽回，直到前两天真正的确定想要放手吧。下半年情感一直处于空白期，也处于一段寂寞期。在心灵的空虚的过程中没有找到一个合理的宣泄口，比如说看书，看电影，写文章等等，唯有<strong>读书</strong>才能排解心灵的寂寞。 - 2017年阅读过的书籍 变身（东野圭吾）、秘密（东野圭吾）、浪潮之巅（吴军）、我所有的朋友都死了、湖边凶杀案（东野圭吾） - 2016年阅读过的书籍 白夜行（东野圭吾）、浪潮之巅（吴军）、南海暗战（凤凰周刊）、漩涡中的朴槿惠（凤凰周刊）、三体（刘慈欣）、球状闪电（刘慈欣）、明朝那些事、放学后（东野圭吾）、肖申克的救赎 - 这一年书籍的阅读量很少 虽然有很多书都没有读完，而且有很大一部分是技术类的书籍。我希望在2018年自己能够阅读更多的书籍，不说很多的书，但至少每天都要有书籍的阅读，这样大概一个月一本书的话，一年至少也要看12本书，除此之外，每个季度都要制定阅读计划，并查看上阶段的阅读计划是否完成。现打算1-2月就把《精力管理》和《习惯的养成》这两本书看完。 - 这一年游戏玩的有点多 尤其是从10月份开始，突然热衷上了《绝地求生》，间接的导致了成绩的下滑，玩游戏可以，但是一定要有个度，不能天天玩，袜子不洗，作业没写完就一直玩下去。而应该有所节制，尤其是周五晚上和周末，一定要学会克制自己的欲望，不能放纵自己。 - 健身 这一点很重要，你看，女神的身材这么好，在应该锻炼的时候，要认真训练，不能对自己的饮食过于放纵，不然肚子上的肉越来越多了可不好看了。 - 精力管理 这个问题一直存在，只是到了10月份以后，彻底放纵了，周内时间不能玩游戏，就一直在晚上睡前看直播，看游戏直播，看到一两点，虽说没有占用你自习的时间，但是在课上没有精力，导致了上课状态一直不好，给教员的印象也很差，平时分也低，最后考试完成作业相对都很吃力。在18年，这一块是很重要的一点，要尽快养成精力管理。把精力看作一种财富。 下半年的计划 - 读书 一年之内至少要读12本书，每个季度制定读书计划，也就是一个月至少一本书，并做好读书笔记，可以不需要做的很仔细，但是每本书读完一定要有一个体会。 - 电影 每个月的四个周末至少抽出来一个晚上的时间看一部哲学类的影片，并写一篇影片观后感。每个月提前选择好影片。 - 学会一门技能 这段话说的的确很现实啊，同学聚会唱歌、舞蹈的时候都没有一个能够展示的方面确实很尬。学会一两首歌是这个新年的首要目标，暑假如果有假期的话，有空就经常去游泳馆，不管会不会先游起来再说嘛。 &gt; 15岁觉得游泳难，放弃游泳，到18岁遇到一个你喜欢的人约你去游泳，你只好说“我不会耶”。18岁觉得英文难，放弃英文，28岁出现一个很棒但要会英文的工作，你只好说“我不会耶”。人生前期越嫌麻烦，越懒得学，后来就越可能错过让你动心的人和事，错过新风景。 ——蔡康永 - 书法 自己的字是一个优势，但这个优势现在慢慢的退化，因此2018年要把书法的层次再提上一层楼，学会写毛笔字就是本年度的计划咯。 - 健身 抛去让人讨厌的体能训练，我觉得健身这个词更能让人接受，这个我觉得并不是很难，因为之前就有运动的基础，所以只要把方法用对，以前可能多为无氧运动，今后要多为有氧运动，以增肌减肥为目的。 - 英语方面 英语口语一直比较差，乃至平翘舌不分让人贻笑大方，所以要注重平时的口语训练，六级算是一个比较打得目标了吧。在今年六月份一定要把六级突破掉。 - 博客写作 对于每一个的项目，项目结束的时候都要做一个总结，建议以写博客的方式。这个项目不管大还是小，小到写个爬虫项目，大到参与到课题组的研究当中去。 - 寒假的一个小计划 利用寒假的时间，做一个小小的个人站点，因为wordpress使用的是他人的模板，而且不熟悉PHP，所以利用寒假的时间把个人的站点搭建好，这个站点不仅可以写博客，还有一些心情分享，照片墙之类的。使用技术就以最新的Python为后台，Django为应用框架，Apache提供web服务，HTML和js为主要的前端展示平台。 说了这么多了，所有计划的关键还是落实到位，如何落实也不能只是一句空话。每个季度、每个月都要制定本阶段的计划，这个阶段要完成什么，上个阶段什么没有完成，到了每个周，再制定每周的计划。严格把这些计划落实下去。 除此之外，个人的自控力有待进一步提高，因为本学期考试成绩不理想很大一部分是因为没有抵抗住游戏的诱惑。（PS：以后想玩游戏的话，想想女神咯，^_^!，光玩游戏以后怕是和女神一起吃饭的机会都没有的咯。加油，你可以的。）</p>
+          Java的数据结构
+123456789101112Collection├List│├LinkedList│├ArrayList│└Vector│　└Stack└SetMap├Hashtable├HashMap	└WeakHashMap
+Java标识符
+访问控制修饰符 :
 
-          
+default： (即缺省
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/20/Java-learning-note/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1421,8 +1517,10 @@ System.out.println(&quot;Page number &quot;+ i);
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image" src="/images/head.jpeg" alt="花池开">
+            
               <p class="site-author-name" itemprop="name">花池开</p>
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">Incremental change is better than ambitious failure.</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -1442,10 +1540,10 @@ System.out.println(&quot;Page number &quot;+ i);
               
               
               <div class="site-state-item site-state-categories">
-                
-                  <span class="site-state-item-count">7</span>
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -1453,10 +1551,10 @@ System.out.println(&quot;Page number &quot;+ i);
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -1464,6 +1562,28 @@ System.out.println(&quot;Page number &quot;+ i);
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/flowerlake" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cherryg963@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/yangyo/activities" target="_blank" title="ZhiHu">
+                      
+                        <i class="fa fa-fw fa-user"></i>ZhiHu</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -1556,6 +1676,8 @@ System.out.println(&quot;Page number &quot;+ i);
   
 
 
+  
+
 
 
 
@@ -1596,6 +1718,11 @@ System.out.println(&quot;Page number &quot;+ i);
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
 
   
 
@@ -1623,6 +1750,14 @@ System.out.println(&quot;Page number &quot;+ i);
 
   
 
+    
+      <script id="dsq-count-scr" src="https://enem.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
 
 
 
@@ -1635,10 +1770,6 @@ System.out.println(&quot;Page number &quot;+ i);
   
 
 
-
-
-
-  
 
 
 

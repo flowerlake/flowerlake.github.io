@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在尝试抽取PDF文档的过程中，了解到了Java下面有个PDFbox包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。 PDF Structure ` +--------------------------+ | +----------------------+ | | |        Header        | |  &amp;lt;—–文件头，表示版本.%P">
+<meta name="description" content="在尝试抽取PDF文档的内容时，了解到了Java下面有个PDFbox的工具包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。 PDF Structure 123456789101112131415161718|----------------------------+| --------------------------|| |        Header">
 <meta name="keywords" content="java,PDFbox">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何使用PDFbox抽取分列的PDF页面">
-<meta property="og:url" content="http://yoursite.com/2019/05/07/e5-a6-82-e4-bd-95-e4-bd-bf-e7-94-a8pdfbox-e6-8a-bd-e5-8f-96-e5-88-86-e5-88-97-e7-9a-84pdf-e9-a1-b5-e9-9d-a2/index.html">
-<meta property="og:site_name" content="Yang‘s Blog">
-<meta property="og:description" content="在尝试抽取PDF文档的过程中，了解到了Java下面有个PDFbox包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。 PDF Structure ` +--------------------------+ | +----------------------+ | | |        Header        | |  &amp;lt;—–文件头，表示版本.%P">
+<meta property="og:url" content="http://yoursite.com/2019/05/07/20190507-pdfbox/index.html">
+<meta property="og:site_name" content="Yang’s Blog">
+<meta property="og:description" content="在尝试抽取PDF文档的内容时，了解到了Java下面有个PDFbox的工具包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。 PDF Structure 123456789101112131415161718|----------------------------+| --------------------------|| |        Header">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-14T02:41:48.258Z">
+<meta property="og:updated_time" content="2019-05-14T08:07:52.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何使用PDFbox抽取分列的PDF页面">
-<meta name="twitter:description" content="在尝试抽取PDF文档的过程中，了解到了Java下面有个PDFbox包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。 PDF Structure ` +--------------------------+ | +----------------------+ | | |        Header        | |  &amp;lt;—–文件头，表示版本.%P">
+<meta name="twitter:description" content="在尝试抽取PDF文档的内容时，了解到了Java下面有个PDFbox的工具包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。 PDF Structure 123456789101112131415161718|----------------------------+| --------------------------|| |        Header">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/05/07/e5-a6-82-e4-bd-95-e4-bd-bf-e7-94-a8pdfbox-e6-8a-bd-e5-8f-96-e5-88-86-e5-88-97-e7-9a-84pdf-e9-a1-b5-e9-9d-a2/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/07/20190507-pdfbox/">
 
 
 
 
 
-  <title>如何使用PDFbox抽取分列的PDF页面 | Yang‘s Blog</title>
+  <title>如何使用PDFbox抽取分列的PDF页面 | Yang’s Blog</title>
   
 
 
@@ -156,7 +156,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Yang‘s Blog</span>
+        <span class="site-title">Yang’s Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -295,16 +295,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/07/e5-a6-82-e4-bd-95-e4-bd-bf-e7-94-a8pdfbox-e6-8a-bd-e5-8f-96-e5-88-86-e5-88-97-e7-9a-84pdf-e9-a1-b5-e9-9d-a2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/07/20190507-pdfbox/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
       <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/head.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yang‘s Blog">
+      <meta itemprop="name" content="Yang’s Blog">
     </span>
 
     
@@ -330,7 +330,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T16:07:52+08:00">
+                2019-05-14
+              </time>
             
           </span>
 
@@ -360,6 +372,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/07/20190507-pdfbox/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/07/20190507-pdfbox/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -384,33 +406,19 @@
       
 
       
-        <p>在尝试抽取PDF文档的过程中，了解到了Java下面有个PDFbox包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。</p>
+        <p>在尝试抽取PDF文档的内容时，了解到了Java下面有个PDFbox的工具包，整体使用的效果还是不错的。在解决本文的主要问题前，先了解一下PDF这种半结构化的文档。</p>
 <p><strong>PDF Structure</strong></p>
-<p><code>`</code><br> +--------------------------+<br> | +----------------------+ |<br> | |        Header        | |  &lt;—–文件头，表示版本.%PDF-1.M<br> | |                      | |<br> | +----------------------+ |<br> | |                      | |<br> | |         Body         | |  &lt;—–文件体，由一系列PDF对象组成<br> | |                      | |<br> | |                      | |<br> | |                      | |<br> | |                      | |<br> | |                      | |<br> | +----------------------+ |<br> | |    Cross-reference   | |  &lt;—–交叉引用表，包含指向所有间接<br> | |         table        | |        对象的文件位置索引的列表<br> | |        (xref)        | |<br> | +----------------------+ |<br> | |        Trailer       | |  &lt;—–包含文件的根节点信息和<br> | |                      | |        文件解析的起点信息<br> | +----------------------+ |<br> +————————–+</p>
-<p>本文主要解决的问题是针对有两列或者多列的页面，提取其中的文字。这一点根据 @mkl的提示，实现了基本的demo。这里是 stackoverflow 下的一个问题及mkl的回答。<a href="https://stackoverflow.com/questions/26233387/extract-pdf-text-by-columns" target="_blank" rel="noopener">extract PDF text by columns</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">|----------------------------+</span><br><span class="line">| --------------------------|</span><br><span class="line">| |        Header        | |  &lt;-----文件头，表示版本.%PDF-<span class="number">1</span>.M</span><br><span class="line">| |                      | |</span><br><span class="line">| --------------------------|</span><br><span class="line">| |                      | |</span><br><span class="line">| |         Body         | |  &lt;-----文件体，由一系列PDF对象组成</span><br><span class="line">| |                      | |</span><br><span class="line">| |                      | |</span><br><span class="line">| --------------------------|</span><br><span class="line">| |    Cross-reference   | |  &lt;-----交叉引用表，包含指向所有间接</span><br><span class="line">| |         table        | |        对象的文件位置索引的列表</span><br><span class="line">| |        (xref)        | |</span><br><span class="line">| --------------------------|</span><br><span class="line">| |        Trailer       | |  &lt;-----包含文件的根节点信息和</span><br><span class="line">| |                      | |        文件解析的起点信息</span><br><span class="line">| --------------------------|</span><br><span class="line">+----------------------------+</span><br></pre></td></tr></table></figure>
+<p>本文主要解决的问题是针对有两列或者多列的页面，提取其中的文字。这一点根据 @mkl的提示，实现了基本的demo。<br>在Stack Overflow上有一个也是关于PDF文档多列抽取的问题，PDF文档的处理是一项复杂的工程，现在还尚未有非常成熟的一套解决方案。Java平台上的开源工具 PDFbox和商业服务iText相对而言做的比较完整，但对于的文档还需要定义额外的提取规则。这里是 stackoverflow 下的问题及 @mkl 的回答。<a href="https://stackoverflow.com/questions/26233387/extract-pdf-text-by-columns" target="_blank" rel="noopener">extract PDF text by columns</a></p>
 <blockquote>
 <p>PDFBox does not analyze the page content to recognize columns. If you do the analysis, though, it allows you to extract text column by column if you provide the column rectangles as reguions.</p>
 </blockquote>
-<p>StringBuilder pdfText = new StringBuilder();<br>// 重写 writeString(String, List<textposition>)方法以加载更多文本的信息，增加使用字体的名称来扩展文本信息<br>PDFTextStripperByArea stripper = new PDFTextStripperByArea()；</textposition></p>
-<p>stripper.setSortByPosition(true);<br>// 定位到左边一栏的页面<br>Rectangle rectLeft = new Rectangle(10, 60, 320, 820);<br>// 定位到右边一栏的页面<br>Rectangle rectRight = new Rectangle(330, 60, 320, 820);</p>
-<p>stripper.addRegion(“leftColumn”, rectLeft);</p>
-<p>stripper.addRegion(“rightColumn”, rectRight);</p>
-<p>PDPageTree allPages = document.getDocumentCatalog().getPages();<br>int pageNumber = document.getNumberOfPages();</p>
-<p>String leftText = “”;<br>String rightText = “”;</p>
-<p>for (int i = 0; i &lt; pageNumber; i++) {</p>
-<pre><code>PDPage page = (PDPage) allPages.get(i);
-
-stripper.extractRegions(page);
-leftText = stripper.getTextForRegion(&quot;leftColumn&quot;);
-rightText = stripper.getTextForRegion(&quot;rightColumn&quot;);
-
-pdfText.append(leftText);
-pdfText.append(rightText);
-
-System.out.println(&quot;Page number &quot;+ i);
-</code></pre><p>}</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder pdfText = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="comment">// 重写 writeString(String, List&lt;TextPosition&gt;)方法以加载更多文本的信息，</span></span><br><span class="line"><span class="comment">// 增加使用字体的名称来扩展文本信息</span></span><br><span class="line">PDFTextStripperByArea stripper = <span class="keyword">new</span> PDFTextStripperByArea()；</span><br><span class="line"></span><br><span class="line">stripper.setSortByPosition(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">// 定位到左边一栏的页面</span></span><br><span class="line">Rectangle rectLeft = <span class="keyword">new</span> Rectangle(<span class="number">10</span>, <span class="number">60</span>, <span class="number">320</span>, <span class="number">820</span>);</span><br><span class="line"><span class="comment">// 定位到右边一栏的页面</span></span><br><span class="line">Rectangle rectRight = <span class="keyword">new</span> Rectangle(<span class="number">330</span>, <span class="number">60</span>, <span class="number">320</span>, <span class="number">820</span>);</span><br><span class="line"></span><br><span class="line">stripper.addRegion(<span class="string">"leftColumn"</span>, rectLeft);</span><br><span class="line"></span><br><span class="line">stripper.addRegion(<span class="string">"rightColumn"</span>, rectRight);</span><br><span class="line"></span><br><span class="line">PDPageTree allPages = document.getDocumentCatalog().getPages();</span><br><span class="line"><span class="keyword">int</span> pageNumber = document.getNumberOfPages();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">String leftText = <span class="string">""</span>;</span><br><span class="line">String rightText = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pageNumber; i++) &#123;</span><br><span class="line"></span><br><span class="line">    PDPage page = (PDPage) allPages.get(i);</span><br><span class="line"></span><br><span class="line">    stripper.extractRegions(page);</span><br><span class="line">    leftText = stripper.getTextForRegion(<span class="string">"leftColumn"</span>);</span><br><span class="line">    rightText = stripper.getTextForRegion(<span class="string">"rightColumn"</span>);</span><br><span class="line"></span><br><span class="line">    pdfText.append(leftText);</span><br><span class="line">    pdfText.append(rightText);</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"Page number "</span>+ i);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其中这里的列的边界，是不断尝试获取的。</p>
-
+<p>在做毕业设计的时候，看到一篇关于 寻找PDF文档区域边界的方法。论文题目是 Improving the Extraction of Text in PDFs by Simulating the Human Reading Order。通篇读下来，感觉这种方法还是很可靠地，近期会对论文中提到的算法进行复现。</p>
+<hr>
+<p>很多同学对于上面代码中的 PDFTextStripperByArea类的重写比较感兴趣，我在这里贴一下代码吧。这里主要实现的是 把抽取出来的文本根据字体以及字号的不同打上标签，便于内容的提取。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">PDFTextStripper stripper = <span class="keyword">new</span> PDFTextStripper() &#123;</span><br><span class="line"></span><br><span class="line">    String prevBaseFont = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">float</span> prevFontSize = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">writeString</span><span class="params">(String text, List&lt;TextPosition&gt; textPositions)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (TextPosition position : textPositions) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 获得该区域文本的字体名以及字体大小，根据这两点进行抽取</span></span><br><span class="line">            <span class="keyword">float</span> fontSize = position.getFontSize();</span><br><span class="line"></span><br><span class="line">            String baseFont = position.getFont().getName();</span><br><span class="line">            <span class="keyword">if</span> (baseFont != <span class="keyword">null</span> &amp;&amp; !baseFont.equals(prevBaseFont) &amp;&amp; !(fontSize==prevFontSize)) &#123;</span><br><span class="line"></span><br><span class="line">                builder.append(<span class="string">'['</span>).append(baseFont).append(<span class="string">'|'</span>).append(fontSize).append(<span class="string">']'</span>);</span><br><span class="line">                prevBaseFont = baseFont;</span><br><span class="line">                prevFontSize = fontSize;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            builder.append(position.getUnicode());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        writeString(builder.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -442,8 +450,8 @@ System.out.println(&quot;Page number &quot;+ i);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/20/use-git-clearly/" rel="next" title="清楚地使用git">
-                <i class="fa fa-chevron-left"></i> 清楚地使用git
+              <a href="/2019/03/20/use-git-clearly/" rel="next" title="use git clearly">
+                <i class="fa fa-chevron-left"></i> use git clearly
               </a>
             
           </div>
@@ -480,6 +488,16 @@ System.out.println(&quot;Page number &quot;+ i);
           
 
   
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
 
 
 
@@ -507,8 +525,10 @@ System.out.println(&quot;Page number &quot;+ i);
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image" src="/images/head.jpeg" alt="花池开">
+            
               <p class="site-author-name" itemprop="name">花池开</p>
-              <p class="site-description motion-element" itemprop="description"></p>
+              <p class="site-description motion-element" itemprop="description">Incremental change is better than ambitious failure.</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -528,10 +548,10 @@ System.out.println(&quot;Page number &quot;+ i);
               
               
               <div class="site-state-item site-state-categories">
-                
-                  <span class="site-state-item-count">7</span>
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -539,10 +559,10 @@ System.out.println(&quot;Page number &quot;+ i);
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -550,6 +570,28 @@ System.out.println(&quot;Page number &quot;+ i);
 
           
 
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/flowerlake" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:cherryg963@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/yangyo/activities" target="_blank" title="ZhiHu">
+                      
+                        <i class="fa fa-fw fa-user"></i>ZhiHu</a>
+                  </span>
+                
+            </div>
           
 
           
@@ -642,6 +684,8 @@ System.out.println(&quot;Page number &quot;+ i);
   
 
 
+  
+
 
 
 
@@ -682,6 +726,11 @@ System.out.println(&quot;Page number &quot;+ i);
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
 
   
 
@@ -713,6 +762,26 @@ System.out.println(&quot;Page number &quot;+ i);
 
   
 
+    
+      <script id="dsq-count-scr" src="https://enem.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2019/05/07/20190507-pdfbox/';
+          this.page.identifier = '2019/05/07/20190507-pdfbox/';
+          this.page.title = '如何使用PDFbox抽取分列的PDF页面';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://enem.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -725,10 +794,6 @@ System.out.println(&quot;Page number &quot;+ i);
   
 
 
-
-
-
-  
 
 
 
