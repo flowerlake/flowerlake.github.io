@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Yang’s Blog">
 <meta property="og:description" content="最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-14T12:41:53.728Z">
+<meta property="og:updated_time" content="2019-05-15T00:39:25.758Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用hexo+github+Next搭建个人博客网站">
 <meta name="twitter:description" content="最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部">
@@ -340,8 +340,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2019-05-14T20:41:53+08:00">
-                2019-05-14
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-15T08:39:25+08:00">
+                2019-05-15
               </time>
             
           </span>
@@ -432,7 +432,7 @@
 <p>只需要用中括号将独立的分类括起来即可，这样上面的文章就会被分类在 Sports 和 Baseball 这两个不同的目录中了。</p>
 <h2 id="二、将该博客发布到github上去"><a href="#二、将该博客发布到github上去" class="headerlink" title="二、将该博客发布到github上去"></a>二、将该博客发布到github上去</h2><p><strong>1、建立一个repo</strong><br>名称为xxxx.github.io，这样就可以使用xxxx.github.io这个域名来访问你的站点了。</p>
 <p><strong>2、部署</strong><br>在根目录下的_config.yml文件中有一个配置项deploy，在里面配置上上面这个库的地址。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/yyyy/xxxx.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-<p>注意这里，这里的branch要用master分支，这样你的站点才能成为一个Github Page，官网这一块写的是建议是用public作为部署的分支，但是这样讲branch配置为非master分支后，站点是访问不到的。<a href="https://hexo.io/zh-cn/docs/deployment" target="_blank" rel="noopener">官方上部署部分的其他方面</a>写的还是很清晰的。</p>
+<p>注意这里，这里的branch要用master分支，这样你的站点才能成为一个Github Page，官网这一块写的是建议是用public作为部署的分支，但是这样将branch配置为非master分支后，站点是访问不到的。<a href="https://hexo.io/zh-cn/docs/deployment" target="_blank" rel="noopener">官方上部署部分的其他方面</a>写的还是很清晰的。</p>
 <p>配置完毕后，使用<code>hexo clean</code>和<code>hexo deploy</code>命令就可以把站点部署到github上了。等待几分钟就可以访问了。</p>
 <h2 id="三、站点主题更新的问题"><a href="#三、站点主题更新的问题" class="headerlink" title="三、站点主题更新的问题"></a>三、站点主题更新的问题</h2><p>当站点部署完毕后，加入主题的部分地方有更改，那么该怎么同步到github上呢。<br>其实也很简单，对有改动的页面重新生成新的页面，然后再推送到github库。这里有没有感觉到其实就是github的git。使用<code>hexo generate -d</code>或者<code>hexo g -d</code>即可将更新后的站点提交到github上。（发布文章用这两条命令就行。）</p>
 <p><strong>注意哦</strong><br>这里有个cache的问题，可能大家会发现为什么已经重新部署了刷新页面还是没有改变，其实这是因为浏览器缓存的原因，只需要清除浏览器最近的cache就可以了。（可能是因为是静态的网站，所以cache缓存的较多？）</p>
@@ -477,6 +477,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/15/iridescent-sentence/" rel="prev" title="iridescent sentences">
+                iridescent sentences <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -565,7 +569,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
