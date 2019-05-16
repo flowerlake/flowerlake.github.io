@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Yang’s Blog">
 <meta property="og:description" content="最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-15T00:39:25.758Z">
+<meta property="og:updated_time" content="2019-05-16T02:57:33.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用hexo+github+Next搭建个人博客网站">
 <meta name="twitter:description" content="最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部">
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2019-05-15T08:39:25+08:00">
-                2019-05-15
+              <time title="Post modified" itemprop="dateModified" datetime="2019-05-16T10:57:33+08:00">
+                2019-05-16
               </time>
             
           </span>
@@ -449,7 +449,12 @@
 <p>配置完毕后，使用<code>hexo clean</code>和<code>hexo deploy</code>命令就可以把站点部署到github上了。等待几分钟就可以访问了。</p>
 <h2 id="三、站点主题更新的问题"><a href="#三、站点主题更新的问题" class="headerlink" title="三、站点主题更新的问题"></a>三、站点主题更新的问题</h2><p>当站点部署完毕后，加入主题的部分地方有更改，那么该怎么同步到github上呢。<br>其实也很简单，对有改动的页面重新生成新的页面，然后再推送到github库。这里有没有感觉到其实就是github的git。使用<code>hexo generate -d</code>或者<code>hexo g -d</code>即可将更新后的站点提交到github上。（发布文章用这两条命令就行。）</p>
 <p><strong>注意哦</strong><br>这里有个cache的问题，可能大家会发现为什么已经重新部署了刷新页面还是没有改变，其实这是因为浏览器缓存的原因，只需要清除浏览器最近的cache就可以了。（可能是因为是静态的网站，所以cache缓存的较多？）</p>
-
+<h2 id="四、在文章中嵌入可视化图表"><a href="#四、在文章中嵌入可视化图表" class="headerlink" title="四、在文章中嵌入可视化图表"></a>四、在文章中嵌入可视化图表</h2><p>下图是d3的一个柱状图demo，可以实现增加或删除的操作。怎么做呢？实际上只需要在你的文章中嵌入JavaScript脚本的代码即可，前文说到了 Markdown就是html的变体，因此它也支持在文章中直接加上各类dom标签。</p>
+<p>下面是嵌入的代码示例和图表类型<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"bar"</span>&gt;&lt;/div&gt;</span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"/css/custom/main.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"/js/src/d3.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">"/js/custom/bar.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p><div id="bar"></div></p>
+<p><link rel="stylesheet" href="/css/custom/main.css"></p>
+<script src="/js/src/d3.min.js"></script>
+<script src="/js/custom/bar.js"></script>
       
     </div>
     
@@ -666,7 +671,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、本地搭建hexo和Next"><span class="nav-number">1.</span> <span class="nav-text">一、本地搭建hexo和Next</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、将该博客发布到github上去"><span class="nav-number">2.</span> <span class="nav-text">二、将该博客发布到github上去</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、站点主题更新的问题"><span class="nav-number">3.</span> <span class="nav-text">三、站点主题更新的问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、本地搭建hexo和Next"><span class="nav-number">1.</span> <span class="nav-text">一、本地搭建hexo和Next</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、将该博客发布到github上去"><span class="nav-number">2.</span> <span class="nav-text">二、将该博客发布到github上去</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、站点主题更新的问题"><span class="nav-number">3.</span> <span class="nav-text">三、站点主题更新的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、在文章中嵌入可视化图表"><span class="nav-number">4.</span> <span class="nav-text">四、在文章中嵌入可视化图表</span></a></li></ol></div>
             
 
           </div>
