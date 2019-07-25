@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hexo,Next,">
+  <meta name="keywords" content="java,">
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部">
-<meta name="keywords" content="hexo,Next">
+<meta name="description" content="今天整理一下java的多线程部分的基础知识 废话篇今年7月中旬的时候从我的大学毕业了，这一段时间在家里带了几天娃，希望我的博客不倒，小外甥女长大能看到。（笑哭 前一段时间学习了Java的多线程，Java多线程编程的基础内容并不难，但是刚学完多线程我对这个多线程有了一些疑问——Java的多线程程序在计算机中究竟是怎么运行的呢？带着这个疑问开始了下面的探寻之路。 Java多线程编程回顾java的多线程">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用hexo+github+Next搭建个人博客网站">
-<meta property="og:url" content="http://yoursite.com/2019/05/14/hexo-next-blog/index.html">
+<meta property="og:title" content="Java的多线程-基础知识(1)">
+<meta property="og:url" content="http://yoursite.com/2019/07/23/Java-multi-thread-note/index.html">
 <meta property="og:site_name" content="Yang’s Blog">
-<meta property="og:description" content="最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部">
+<meta property="og:description" content="今天整理一下java的多线程部分的基础知识 废话篇今年7月中旬的时候从我的大学毕业了，这一段时间在家里带了几天娃，希望我的博客不倒，小外甥女长大能看到。（笑哭 前一段时间学习了Java的多线程，Java多线程编程的基础内容并不难，但是刚学完多线程我对这个多线程有了一些疑问——Java的多线程程序在计算机中究竟是怎么运行的呢？带着这个疑问开始了下面的探寻之路。 Java多线程编程回顾java的多线程">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-16T02:57:33.208Z">
+<meta property="og:updated_time" content="2019-07-25T03:42:30.179Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用hexo+github+Next搭建个人博客网站">
-<meta name="twitter:description" content="最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部">
+<meta name="twitter:title" content="Java的多线程-基础知识(1)">
+<meta name="twitter:description" content="今天整理一下java的多线程部分的基础知识 废话篇今年7月中旬的时候从我的大学毕业了，这一段时间在家里带了几天娃，希望我的博客不倒，小外甥女长大能看到。（笑哭 前一段时间学习了Java的多线程，Java多线程编程的基础内容并不难，但是刚学完多线程我对这个多线程有了一些疑问——Java的多线程程序在计算机中究竟是怎么运行的呢？带着这个疑问开始了下面的探寻之路。 Java多线程编程回顾java的多线程">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/05/14/hexo-next-blog/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/23/Java-multi-thread-note/">
 
 
 
 
 
-  <title>使用hexo+github+Next搭建个人博客网站 | Yang’s Blog</title>
+  <title>Java的多线程-基础知识(1) | Yang’s Blog</title>
   
 
 
@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/14/hexo-next-blog/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/23/Java-multi-thread-note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="花池开">
@@ -314,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用hexo+github+Next搭建个人博客网站</h1>
+          <h1 class="post-title" itemprop="name headline">Java的多线程-基础知识(1)</h1>
         
 
         <div class="post-meta">
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-14T19:30:20+08:00">
-                2019-05-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-23T18:22:20+08:00">
+                2019-07-23
               </time>
             
 
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2019-05-16T10:57:33+08:00">
-                2019-05-16
+              <time title="Post modified" itemprop="dateModified" datetime="2019-07-25T11:42:30+08:00">
+                2019-07-25
               </time>
             
           </span>
@@ -361,8 +361,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/开发环境/" itemprop="url" rel="index">
-                    <span itemprop="name">开发环境</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -379,8 +379,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/05/14/hexo-next-blog/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/14/hexo-next-blog/" itemprop="commentCount"></span>
+                <a href="/2019/07/23/Java-multi-thread-note/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/07/23/Java-multi-thread-note/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -388,7 +388,7 @@
 
           
           
-             <span id="/2019/05/14/hexo-next-blog/" class="leancloud_visitors" data-flag-title="使用hexo+github+Next搭建个人博客网站">
+             <span id="/2019/07/23/Java-multi-thread-note/" class="leancloud_visitors" data-flag-title="Java的多线程-基础知识(1)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -419,42 +419,27 @@
       
 
       
-        <p>最近做毕业设计做的有点累，好久没写博客了，写篇博客放松一下。最近面临毕业了，之前在腾讯云搭建的个人站点，服务器也不能使用学生优惠的价格购买了，遂在今天借这个机会把博客迁移到github上来。之前有一次自己的云服务器的数据库被撞库了，又没有备份，丢失了很多的文章，也是心痛。使用hexo部署到github上就很好的避免了这个问题。整体上来说，hexo和Next的文档也是很丰富详细的，下面记录一下搭建部署的一些细节问题。</p>
-<p>注：使用hexo搭建博客就意味着你今后就要使用 Markdown 来写作了。Markdown的通用语法很简单，可以将其认为是html的一种变体（实际上就是html的变体，因此可以在Markdown文件中使用部分html标签）。Markdown的语法一般来说半个小时不到就能学会了（<a href="https://www.markdownguide.org/basic-syntax" target="_blank" rel="noopener">makrdown basic-syntax</a>），只要用Markdown写上两篇文章，基本上就得心应手了。这里顺带着推荐一个编辑器 Typora，无论是macOS还是Windows下该软件的表现都不错，而且对于 LaTeX 和 Code支持的比较好（这个是我推荐Typora的重点）。</p>
-<h2 id="一、本地搭建hexo和Next"><a href="#一、本地搭建hexo和Next" class="headerlink" title="一、本地搭建hexo和Next"></a>一、本地搭建hexo和Next</h2><p>现在hexo的官方文档已经很完善了，并且也支持多种语言，一般来说都没什么大的问题。我参考着<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">hexo的官方文档</a>基本上就把hexo搭建好了。这里我想说一下，能参考官方文档就尽量看官方文档，现在网上很多的博客文章时间发表的都有些时段了，而官网文档是系统运行的最基本的参考。把hexo搭建好之后就可以在某个空白文件夹下初始化hexo项目。我相信大家到这里应该都没什么问题。</p>
-<p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">hexo官方文档</a></p>
-<p><a href="https://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">Next官方文档</a></p>
-<p><strong>下面是配置环节。</strong></p>
-<blockquote>
-<p>在 Hexo 中有两份主要的配置文件，其名称都是 _config.yml。 其中，一份位于站点根目录下，主要包含 Hexo 本身的配置；另一份位于主题目录下，这份配置由主题作者提供，主要用于配置主题相关的选项。</p>
-</blockquote>
-<p>上面这段话是Next网站的一句话。配置的时候一定要注意这两个文件，文件名都是一样的，别弄混淆了，可以这样理解：</p>
-<ul>
-<li>根目录下的_config.yml是全局的变量设置，就是无论更换什么主题，这一块的内容是不变的。</li>
-<li>themes文件夹里的主题目录下的_config.yml文件中配置的是该主题所特有的个性化设置。</li>
+        <p>今天整理一下java的多线程部分的基础知识</p>
+<h3 id="废话篇"><a href="#废话篇" class="headerlink" title="废话篇"></a>废话篇</h3><p>今年7月中旬的时候从我的大学毕业了，这一段时间在家里带了几天娃，希望我的博客不倒，小外甥女长大能看到。（笑哭</p>
+<p>前一段时间学习了Java的多线程，Java多线程编程的基础内容并不难，但是刚学完多线程我对这个多线程有了一些疑问——Java的多线程程序在计算机中究竟是怎么运行的呢？带着这个疑问开始了下面的探寻之路。</p>
+<h3 id="Java多线程编程回顾"><a href="#Java多线程编程回顾" class="headerlink" title="Java多线程编程回顾"></a>Java多线程编程回顾</h3><p>java的多线程在Java8中总共有3种实现方式，即通过继承thread类，实现Runable接口，使用callable、线程池executor、future来创建可以返回值的线程。下面简单看一下这三者实现的一个demo。</p>
+<h4 id="1、继承thread类来创建线程"><a href="#1、继承thread类来创建线程" class="headerlink" title="1、继承thread类来创建线程"></a>1、继承thread类来创建线程</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadMethod</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    ThreadMethod(String name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里通过重写Thread类的run()方法达到起多线程的目的</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">":"</span> + i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sleep((<span class="keyword">int</span>) (Math.random() * <span class="number">10</span>));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestMain1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里就起了两个线程，线程的代码顺序和线程的执行顺序无关</span></span><br><span class="line">        ThreadMethod threadClass1 = <span class="keyword">new</span> ThreadMethod(<span class="string">"AA"</span>);</span><br><span class="line">        ThreadMethod threadClass2 = <span class="keyword">new</span> ThreadMethod(<span class="string">"BB"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这里可以通过调用run方法来看看线程和非线程的区别，如果是调用run方法时，得到的结果是顺序执行的，</span></span><br><span class="line">        <span class="comment">// 但是start()方法是线程执行的方法，因此如果用多线程的方法就要使用start()</span></span><br><span class="line">        <span class="comment">// 注意：start()方法的调用后并不是立即执行多线程代码，而是使得该线程变为可运行态（Runnable），什么时候运行是由操作系统决定的。</span></span><br><span class="line">        threadClass1.start();</span><br><span class="line">        threadClass2.start();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据Java的单继承模式（即一个类只能继承一个类），所以如果一个类继承Thread，则不适合资源共享。但是如果实现了Runable接口的话（因为java的接口是多继承关系，即一个类可以实现多个接口），这样则很容易的实现资源共享（<u><strong>这里的资源共享是什么意思</strong>？</u>）。</p>
+<h4 id="2、实现Runable接口来创建线程"><a href="#2、实现Runable接口来创建线程" class="headerlink" title="2、实现Runable接口来创建线程"></a>2、实现Runable接口来创建线程</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RunnableThreadMethod</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    RunnableThreadMethod(String name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">"运行开始"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            System.out.println(name + <span class="string">":"</span> + i);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (i==<span class="number">8</span> &amp;&amp; Thread.currentThread().getName().equals(<span class="string">"Thread-0"</span>))&#123;</span><br><span class="line">                System.out.println(<span class="string">"yield start"</span>);</span><br><span class="line">                <span class="comment">// yield只是从程序上控制线程的运行状态，即将其在程序层面上转为可运行状态也就是就绪状态，但是硬件层面CPU调度还是有</span></span><br><span class="line">                <span class="comment">// 可能将同时处于可运行状态中的该线程拿出来跑。</span></span><br><span class="line">                Thread.yield();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            sleep((<span class="keyword">int</span>) (Math.random() * <span class="number">10</span>));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">"运行结束"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestMain2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">"运行开始"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Thread2类通过实现Runnable接口，使得该类有了多线程类的特征。run（）方法是多线程程序的一个约定。</span></span><br><span class="line">        <span class="comment">// 所有的多线程代码都在run方法里面。Thread类实际上也是实现了Runnable接口的类。</span></span><br><span class="line">        RunnableThreadMethod runnableThreadMethod1 = <span class="keyword">new</span> RunnableThreadMethod(<span class="string">"C"</span>);</span><br><span class="line">        RunnableThreadMethod runnableThreadMethod2 = <span class="keyword">new</span> RunnableThreadMethod(<span class="string">"D"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在启动的多线程的时候，需要先通过Thread类的构造方法Thread(Runnable target) 构造出对象，</span></span><br><span class="line">        <span class="comment">// 然后调用Thread对象的start()方法来运行多线程代码。</span></span><br><span class="line">        <span class="comment">// 实际上所有的多线程代码都是通过运行Thread的start()方法来运行的。因此，不管是扩展Thread类还是</span></span><br><span class="line">        <span class="comment">// 实现Runnable接口来实现多线程，最终还是通过Thread的对象的API来控制线程的，熟悉Thread类的API是进行多线程编程的基础。</span></span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(runnableThreadMethod1);</span><br><span class="line">        thread1.start();</span><br><span class="line">        <span class="keyword">new</span> Thread(runnableThreadMethod2).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            thread1.join();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println(Thread.currentThread().getName()+<span class="string">"运行结束"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、使用call、线程池executor、future来创建可以返回值的线程"><a href="#3、使用call、线程池executor、future来创建可以返回值的线程" class="headerlink" title="3、使用call、线程池executor、future来创建可以返回值的线程"></a>3、使用call、线程池executor、future来创建可以返回值的线程</h4><p>如果对一些场合需要线程返回的结果。就要使用用Callable、Future、FutureTask、CompletionService这几个类。Callable只能在ExecutorService的线程池中跑，但有返回结果，也可以通过返回的Future对象查询执行状态。<br>Future 本身也是一种设计模式，它是用来取得异步任务的结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallThreadMethod</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CallThread</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Object</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String taskName;</span><br><span class="line"></span><br><span class="line">        CallThread(String name) &#123;</span><br><span class="line">            <span class="keyword">this</span>.taskName = name;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">" start"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">            Date date1 = <span class="keyword">new</span> Date();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                sum = sum + i;</span><br><span class="line">                System.out.println(taskName + <span class="string">":"</span> + i);</span><br><span class="line">            &#125;</span><br><span class="line">            Date date2 = <span class="keyword">new</span> Date();</span><br><span class="line">            <span class="keyword">long</span> time = date2.getTime() - date1.getTime();</span><br><span class="line"></span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">" end"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> sum;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ExecutionException, InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> taskSize = <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// 创建一个线程池</span></span><br><span class="line">        ExecutorService executorServicePool = Executors.newFixedThreadPool(taskSize);</span><br><span class="line">        <span class="comment">// 创建具有返回值的任务</span></span><br><span class="line">        Callable callThreadMethod1 = <span class="keyword">new</span> CallThread(<span class="string">"AAa"</span>);</span><br><span class="line">        Callable callThreadMethod2 = <span class="keyword">new</span> CallThread(<span class="string">"BBA"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// way-1:执行任务并获取 Future对象</span></span><br><span class="line">        Future future1 = executorServicePool.submit(callThreadMethod1);</span><br><span class="line">        Future future2 = executorServicePool.submit(callThreadMethod1);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"通过方式1获得的10的和为："</span> + future1.get().toString());</span><br><span class="line">        System.out.println(<span class="string">"通过方式1获得的10的和为："</span> + future2.get().toString());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// =============================================</span></span><br><span class="line">        <span class="comment">// way-2 通过invokeAll执行任务</span></span><br><span class="line">        List&lt;Future&lt;Object&gt;&gt; futureList = executorServicePool.invokeAll(asList(<span class="keyword">new</span> CallThread(<span class="string">"AAAA"</span>), <span class="keyword">new</span> CallThread(<span class="string">"BBB"</span>)));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 关闭线程池</span></span><br><span class="line">        executorServicePool.shutdown();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Future&lt;Object&gt; item : futureList) &#123;</span><br><span class="line">            System.out.println(<span class="string">"通过方式2获得的结果："</span>+item.get());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面再说一说这三者的共同点和差异。</p>
+<p>1、继承thread类和实现runnable接口的两种方式最终都是通过调用thread类的start方法启动线程的；<br>2、前两者(thread、runnable)都不能返回结果；<br>3、runnable实现的多线程 最终还是归一到thread上，这就表明runnable实现的多线程对象的方法是和thread实现的多线程对象的方法api是一致的；<br>4、单继承机制导致多线程类不能继承多个类，而runnable是一个接口类，因此可以实现类继承一个类和多个接口；<br>5、call方法可以返回结果，是使用了线程池，是继承了callable()接口，因此可以像runnable方法一样实现继承多个类。<br>6、call方法开启线程有两种方式，一种是使用submit方法接收CallThread的具体对象，一种是使用invokeAll方法接收一个CallThread对象列表。</p>
+<p>如果需要线程返回结果，那么就选择call方式；如果不需要结果，那么有两种选择，那么建议使用runnable或者call方式。</p>
+<h3 id="Java多线程的进一步思考"><a href="#Java多线程的进一步思考" class="headerlink" title="Java多线程的进一步思考"></a>Java多线程的进一步思考</h3><p>针对java的多线程，是不是这样写出来的代码就一定是并行运行的？</p>
+<p>回想了操作系统相关的知识，进程是操作系统分配资源的最小单位，线程是操作系统调度的最小单位，那么就是说CPU资源是按照线程进行调度的，我们再回到目前的多核多线程的概念中去，目前购买CPU的时候，都会有一个双核4线程、4核8线程这种说法，就是说一个线程运行在CPU的核心上，这样的一般都是一个核心上运行2个线程。对于4核4线程，意味着该CPU可以同时运行4个线程，就是我们写一个4线程程序的时候，如果只有这一个程序使用，理想情况下CPU会全部为该程序服务。也就是说程序（进程）并发，线程在多核心CPU上是并行运行的，多线程程序在单核心单线程的CPU上是并发运行的。</p>
+<p>Google一下“CPU多核多线程”keyword，可以搜到一堆关于这方面的讨论，不清楚的话可以多看几篇文章。</p>
+<h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><ul>
+<li><a href="https://blog.csdn.net/evankaka/article/details/51610635" target="_blank" rel="noopener">Java并发编程与技术内幕:Callable、Future、FutureTask、CompletionService</a></li>
+<li><a href="https://blog.csdn.net/evankaka/article/details/44153709" target="_blank" rel="noopener">Java多线程学习（吐血超详细总结）</a></li>
+<li><a href="https://www.zhihu.com/question/269329998" target="_blank" rel="noopener">关于多线程编程和CPU多核多线程的关系？</a></li>
 </ul>
-<p>结合上面两个官方文档基本上就能把站点配个七七八八了，然后有几个小的细节说一下。</p>
-<p><strong>1、Next添加博客的更新时间</strong></p>
-<p>现在网上有很多文章是在原有的swig文件中添加一些dom标签，实际上我现在使用的是 Next 5.1.4版本，其中就已经包含了博客更新时间的选项。只需要在主题配置文件_config.yml搜索update选项，在post_meta选项中应该可以找到一项updated_at，将其设置为true即可。（题外话，其实很多设置，小伙伴们可以先在该文件中搜索一下，比如评论相关的配置，就搜索一下comment，如果有的话就不用到处查资料了。）</p>
-<p><strong>2、hexo新增页面</strong><br>比如说我要自定义一个页面project放在menu中，方法和<a href="https://theme-next.iissnan.com/theme-settings.html#tags-page" target="_blank" rel="noopener">官网给出的tags、categories建立页面</a>是一样的，只不过就是index.md文件中没有type这个选项，tags和categories页面的功能都是给提供好的。比如我要新建一个页面project来写我的近期工作。就可以使用来新建一个页面，这个页面和新建一个文章还不是一样的。内容的组织结构可以是一样的。这个时候在source文件夹下面就有一个名为project的目录，下有一个index.md的文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page &quot;project&quot;</span><br></pre></td></tr></table></figure></p>
-<p><strong>3、Next添加多个分类目录</strong><br>这个看一下<a href="http://aiellochan.com/2018/02/13/hexo/Hexo-%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%A4%9A%E4%B8%AA-categories/" target="_blank" rel="noopener">aiellochan</a>写的这篇文章。<br>注意区分子分类和多个分类的区别。</p>
-<p><strong>子分类</strong>，下面的分类配置会将该文章放到 Sports/Baseball 这个分类下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">categories:</span><br><span class="line">  - Sports</span><br><span class="line">  - Baseball</span><br></pre></td></tr></table></figure></p>
-<p>同样的作用还可以这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">categories: [Sports,Baseball]</span><br></pre></td></tr></table></figure></p>
-<p>上面两种写法最终的效果都是一样的，都是将文章放在了一个子分类目录下。</p>
-<p><strong>多个分类</strong>,如果我们的要求是将文章同时分到两个或者多个不同的类目下呢？官方给出的方法是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">categories:</span><br><span class="line">  - [Sports]</span><br><span class="line">  - [Baseball]</span><br></pre></td></tr></table></figure></p>
-<p>只需要用中括号将独立的分类括起来即可，这样上面的文章就会被分类在 Sports 和 Baseball 这两个不同的目录中了。</p>
-<h2 id="二、将该博客发布到github上去"><a href="#二、将该博客发布到github上去" class="headerlink" title="二、将该博客发布到github上去"></a>二、将该博客发布到github上去</h2><p><strong>1、建立一个repo</strong><br>名称为xxxx.github.io，这样就可以使用xxxx.github.io这个域名来访问你的站点了。</p>
-<p><strong>2、部署</strong><br>在根目录下的_config.yml文件中有一个配置项deploy，在里面配置上上面这个库的地址。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/yyyy/xxxx.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-<p>注意这里，这里的branch要用master分支，这样你的站点才能成为一个Github Page，官网这一块写的是建议是用public作为部署的分支，但是这样将branch配置为非master分支后，站点是访问不到的。<a href="https://hexo.io/zh-cn/docs/deployment" target="_blank" rel="noopener">官方上部署部分的其他方面</a>写的还是很清晰的。</p>
-<p>配置完毕后，使用<code>hexo clean</code>和<code>hexo deploy</code>命令就可以把站点部署到github上了。等待几分钟就可以访问了。</p>
-<h2 id="三、站点主题更新的问题"><a href="#三、站点主题更新的问题" class="headerlink" title="三、站点主题更新的问题"></a>三、站点主题更新的问题</h2><p>当站点部署完毕后，加入主题的部分地方有更改，那么该怎么同步到github上呢。<br>其实也很简单，对有改动的页面重新生成新的页面，然后再推送到github库。这里有没有感觉到其实就是github的git。使用<code>hexo generate -d</code>或者<code>hexo g -d</code>即可将更新后的站点提交到github上。（发布文章用这两条命令就行。）</p>
-<p><strong>注意哦</strong><br>这里有个cache的问题，可能大家会发现为什么已经重新部署了刷新页面还是没有改变，其实这是因为浏览器缓存的原因，只需要清除浏览器最近的cache就可以了。（可能是因为是静态的网站，所以cache缓存的较多？）</p>
-<h2 id="四、在文章中嵌入可视化图表"><a href="#四、在文章中嵌入可视化图表" class="headerlink" title="四、在文章中嵌入可视化图表"></a>四、在文章中嵌入可视化图表</h2><p>下图是d3的一个柱状图demo，可以实现增加或删除的操作。怎么做呢？实际上只需要在你的文章中嵌入JavaScript脚本的代码即可，前文说到了 Markdown就是html的变体，因此它也支持在文章中直接加上各类dom标签。</p>
-<p>下面是嵌入的代码示例和图表类型<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"bar"</span>&gt;&lt;/div&gt;</span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"/css/custom/main.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"/js/src/d3.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">"/js/custom/bar.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p><div id="bar"></div></p>
-<p><link rel="stylesheet" href="/css/custom/main.css"></p>
-<script src="/js/src/d3.min.js"></script>
-<script src="/js/custom/bar.js"></script>
+
       
     </div>
     
@@ -471,9 +456,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
-          
-            <a href="/tags/Next/" rel="tag"># Next</a>
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -486,8 +469,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/07/20190507-pdfbox/" rel="next" title="如何使用PDFbox抽取分列的PDF页面">
-                <i class="fa fa-chevron-left"></i> 如何使用PDFbox抽取分列的PDF页面
+              <a href="/2019/05/24/nlp-paper/" rel="next" title="nlp经典论文整理（持续更新）">
+                <i class="fa fa-chevron-left"></i> nlp经典论文整理（持续更新）
               </a>
             
           </div>
@@ -495,10 +478,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/15/iridescent-sentence/" rel="prev" title="iridescent sentences">
-                iridescent sentences <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -671,7 +650,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、本地搭建hexo和Next"><span class="nav-number">1.</span> <span class="nav-text">一、本地搭建hexo和Next</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、将该博客发布到github上去"><span class="nav-number">2.</span> <span class="nav-text">二、将该博客发布到github上去</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、站点主题更新的问题"><span class="nav-number">3.</span> <span class="nav-text">三、站点主题更新的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、在文章中嵌入可视化图表"><span class="nav-number">4.</span> <span class="nav-text">四、在文章中嵌入可视化图表</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#废话篇"><span class="nav-number">1.</span> <span class="nav-text">废话篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java多线程编程回顾"><span class="nav-number">2.</span> <span class="nav-text">Java多线程编程回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、继承thread类来创建线程"><span class="nav-number">2.1.</span> <span class="nav-text">1、继承thread类来创建线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、实现Runable接口来创建线程"><span class="nav-number">2.2.</span> <span class="nav-text">2、实现Runable接口来创建线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、使用call、线程池executor、future来创建可以返回值的线程"><span class="nav-number">2.3.</span> <span class="nav-text">3、使用call、线程池executor、future来创建可以返回值的线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java多线程的进一步思考"><span class="nav-number">3.</span> <span class="nav-text">Java多线程的进一步思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文献"><span class="nav-number">3.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -848,9 +827,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2019/05/14/hexo-next-blog/';
-          this.page.identifier = '2019/05/14/hexo-next-blog/';
-          this.page.title = '使用hexo+github+Next搭建个人博客网站';
+          this.page.url = 'http://yoursite.com/2019/07/23/Java-multi-thread-note/';
+          this.page.identifier = '2019/07/23/Java-multi-thread-note/';
+          this.page.title = 'Java的多线程-基础知识(1)';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://flowerlake.disqus.com/embed.js';
