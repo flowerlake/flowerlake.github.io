@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Yang’s Blog">
 <meta property="og:description" content="今天整理一下java的多线程部分的基础知识 废话篇今年7月中旬的时候从我的大学毕业了，这一段时间在家里带了几天娃，希望我的博客不倒，小外甥女长大能看到。（笑哭 前一段时间学习了Java的多线程，Java多线程编程的基础内容并不难，但是刚学完多线程我对这个多线程有了一些疑问——Java的多线程程序在计算机中究竟是怎么运行的呢？带着这个疑问开始了下面的探寻之路。 Java多线程编程回顾java的多线程">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-25T03:42:30.179Z">
+<meta property="og:updated_time" content="2019-07-28T06:00:59.952Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java的多线程-基础知识(1)">
 <meta name="twitter:description" content="今天整理一下java的多线程部分的基础知识 废话篇今年7月中旬的时候从我的大学毕业了，这一段时间在家里带了几天娃，希望我的博客不倒，小外甥女长大能看到。（笑哭 前一段时间学习了Java的多线程，Java多线程编程的基础内容并不难，但是刚学完多线程我对这个多线程有了一些疑问——Java的多线程程序在计算机中究竟是怎么运行的呢？带着这个疑问开始了下面的探寻之路。 Java多线程编程回顾java的多线程">
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2019-07-25T11:42:30+08:00">
-                2019-07-25
+              <time title="Post modified" itemprop="dateModified" datetime="2019-07-28T14:00:59+08:00">
+                2019-07-28
               </time>
             
           </span>
@@ -434,7 +434,9 @@
 <h3 id="Java多线程的进一步思考"><a href="#Java多线程的进一步思考" class="headerlink" title="Java多线程的进一步思考"></a>Java多线程的进一步思考</h3><p>针对java的多线程，是不是这样写出来的代码就一定是并行运行的？</p>
 <p>回想了操作系统相关的知识，进程是操作系统分配资源的最小单位，线程是操作系统调度的最小单位，那么就是说CPU资源是按照线程进行调度的，我们再回到目前的多核多线程的概念中去，目前购买CPU的时候，都会有一个双核4线程、4核8线程这种说法，就是说一个线程运行在CPU的核心上，这样的一般都是一个核心上运行2个线程。对于4核4线程，意味着该CPU可以同时运行4个线程，就是我们写一个4线程程序的时候，如果只有这一个程序使用，理想情况下CPU会全部为该程序服务。也就是说程序（进程）并发，线程在多核心CPU上是并行运行的，多线程程序在单核心单线程的CPU上是并发运行的。</p>
 <p>Google一下“CPU多核多线程”keyword，可以搜到一堆关于这方面的讨论，不清楚的话可以多看几篇文章。</p>
-<h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><ul>
+<hr>
+<p>项目的源码已开放在github上，项目地址：<a href="https://github.com/flowerlake/java-learning" target="_blank" rel="noopener">https://github.com/flowerlake/java-learning</a> ，这个项目包含了学习java的所有代码，感谢star。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
 <li><a href="https://blog.csdn.net/evankaka/article/details/51610635" target="_blank" rel="noopener">Java并发编程与技术内幕:Callable、Future、FutureTask、CompletionService</a></li>
 <li><a href="https://blog.csdn.net/evankaka/article/details/44153709" target="_blank" rel="noopener">Java多线程学习（吐血超详细总结）</a></li>
 <li><a href="https://www.zhihu.com/question/269329998" target="_blank" rel="noopener">关于多线程编程和CPU多核多线程的关系？</a></li>
@@ -650,7 +652,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#废话篇"><span class="nav-number">1.</span> <span class="nav-text">废话篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java多线程编程回顾"><span class="nav-number">2.</span> <span class="nav-text">Java多线程编程回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、继承thread类来创建线程"><span class="nav-number">2.1.</span> <span class="nav-text">1、继承thread类来创建线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、实现Runable接口来创建线程"><span class="nav-number">2.2.</span> <span class="nav-text">2、实现Runable接口来创建线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、使用call、线程池executor、future来创建可以返回值的线程"><span class="nav-number">2.3.</span> <span class="nav-text">3、使用call、线程池executor、future来创建可以返回值的线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java多线程的进一步思考"><span class="nav-number">3.</span> <span class="nav-text">Java多线程的进一步思考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文献"><span class="nav-number">3.1.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#废话篇"><span class="nav-number">1.</span> <span class="nav-text">废话篇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java多线程编程回顾"><span class="nav-number">2.</span> <span class="nav-text">Java多线程编程回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、继承thread类来创建线程"><span class="nav-number">2.1.</span> <span class="nav-text">1、继承thread类来创建线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、实现Runable接口来创建线程"><span class="nav-number">2.2.</span> <span class="nav-text">2、实现Runable接口来创建线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、使用call、线程池executor、future来创建可以返回值的线程"><span class="nav-number">2.3.</span> <span class="nav-text">3、使用call、线程池executor、future来创建可以返回值的线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java多线程的进一步思考"><span class="nav-number">3.</span> <span class="nav-text">Java多线程的进一步思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
