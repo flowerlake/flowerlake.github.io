@@ -78,7 +78,7 @@
   
     
     
-    <link href="//fonts.lug.ustc.edu.cn/css?family=Inconsolata:300,300italic,400,400italic,700,700italic|Inconsolata,Lato,PingFang SC,Microsoft YaHei,sans-serif:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.lug.ustc.edu.cn/css?family=Lato:300,300italic,400,400italic,700,700italic|Inconsolata,Lato,PingFang SC,Microsoft YaHei:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -488,7 +488,7 @@
 <h2 id="三、站点主题更新的问题"><a href="#三、站点主题更新的问题" class="headerlink" title="三、站点主题更新的问题"></a>三、站点主题更新的问题</h2><p>当站点部署完毕后，加入主题的部分地方有更改，那么该怎么同步到github上呢。<br>其实也很简单，对有改动的页面重新生成新的页面，然后再推送到github库。这里有没有感觉到其实就是github的git。使用<code>hexo generate -d</code>或者<code>hexo g -d</code>即可将更新后的站点提交到github上。（发布文章用这两条命令就行。）</p>
 <p><strong>注意哦</strong><br>这里有个cache的问题，可能大家会发现为什么已经重新部署了刷新页面还是没有改变，其实这是因为浏览器缓存的原因，只需要清除浏览器最近的cache就可以了。（可能是因为是静态的网站，所以cache缓存的较多？）</p>
 <h2 id="四、在文章中嵌入可视化图表"><a href="#四、在文章中嵌入可视化图表" class="headerlink" title="四、在文章中嵌入可视化图表"></a>四、在文章中嵌入可视化图表</h2><p>下图是d3的一个柱状图demo，可以实现增加或删除的操作。怎么做呢？实际上只需要在你的文章中嵌入JavaScript脚本的代码即可，前文说到了 Markdown就是html的变体，因此它也支持在文章中直接加上各类dom标签。</p>
-<p>下面是嵌入的代码示例和图表类型<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"bar"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"/css/custom/main.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"/js/src/d3.min.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;script src=<span class="string">"/js/custom/bar.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure></p>
+<p>下面是嵌入的代码示例和图表类型<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=<span class="string">"bar"</span>&gt;&lt;/div&gt;</span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"/css/custom/main.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"/js/src/d3.min.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=<span class="string">"/js/custom/bar.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
 <p><div id="bar"></div></p>
 <p><link rel="stylesheet" href="/css/custom/main.css"></p>
 <script src="/js/src/d3.min.js"></script>
