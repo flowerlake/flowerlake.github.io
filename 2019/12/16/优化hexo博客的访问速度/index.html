@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="既然写到了这个，就简单说一下为什么把博客迁移到hexo。我的博客之前是直接使用了WordPress，托管在腾讯云上，当时自己的安全意识比较浅薄，数据库密码设置很简单，同时也是因为有侥幸意识，觉得我这么一个小站点应该没有什么人会去搞，数据库直接开放外部连接，密码设为passwd，也没有进行数据库备份的操作，然后就被人撞库，直接把整个数据库给删了。这都是通过查看服务器登录的日志看到的，当时网站崩溃，上">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="优化hexo博客的访问速度">
+<meta property="og:url" content="http://yoursite.com/2019/12/16/优化hexo博客的访问速度/index.html">
+<meta property="og:site_name" content="糖醋大白菜 の 后花园">
+<meta property="og:description" content="既然写到了这个，就简单说一下为什么把博客迁移到hexo。我的博客之前是直接使用了WordPress，托管在腾讯云上，当时自己的安全意识比较浅薄，数据库密码设置很简单，同时也是因为有侥幸意识，觉得我这么一个小站点应该没有什么人会去搞，数据库直接开放外部连接，密码设为passwd，也没有进行数据库备份的操作，然后就被人撞库，直接把整个数据库给删了。这都是通过查看服务器登录的日志看到的，当时网站崩溃，上">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-16%20at%2011.10.20.png">
+<meta property="og:updated_time" content="2019-12-16T03:16:32.865Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="优化hexo博客的访问速度">
+<meta name="twitter:description" content="既然写到了这个，就简单说一下为什么把博客迁移到hexo。我的博客之前是直接使用了WordPress，托管在腾讯云上，当时自己的安全意识比较浅薄，数据库密码设置很简单，同时也是因为有侥幸意识，觉得我这么一个小站点应该没有什么人会去搞，数据库直接开放外部连接，密码设为passwd，也没有进行数据库备份的操作，然后就被人撞库，直接把整个数据库给删了。这都是通过查看服务器登录的日志看到的，当时网站崩溃，上">
+<meta name="twitter:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-16%20at%2011.10.20.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>优化hexo博客的访问速度</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/12/16/微信消息发送与接收/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&text=优化hexo博客的访问速度"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&is_video=false&description=优化hexo博客的访问速度"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=优化hexo博客的访问速度&body=Check out this article: http://yoursite.com/2019/12/16/优化hexo博客的访问速度/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&name=优化hexo博客的访问速度&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        优化hexo博客的访问速度
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">糖醋大白菜 の 后花园</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-16T02:53:38.717Z" itemprop="datePublished">2019-12-16</time>
+        
+        (Updated: <time datetime="2019-12-16T03:16:32.865Z" itemprop="dateModified">2019-12-16</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/hexo/">hexo</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>既然写到了这个，就简单说一下为什么把博客迁移到hexo。我的博客之前是直接使用了WordPress，托管在腾讯云上，当时自己的安全意识比较浅薄，数据库密码设置很简单，同时也是因为有侥幸意识，觉得我这么一个小站点应该没有什么人会去搞，数据库直接开放外部连接，密码设为passwd，也没有进行数据库备份的操作，然后就被人撞库，直接把整个数据库给删了。这都是通过查看服务器登录的日志看到的，当时网站崩溃，上去看了一下日志信息，幸好还配置了保存正常登录的日志信息，就在access.log中看到了一个未知的来自东北的IP地址不断地尝试登录数据库，在某个时刻登陆成功，就明白了被人撞库了。上面积累了一年多的博客文章也都没有了，主要是WordPress提供后台直接编辑的功能，在本地也没有留下文章的备份，这个是被删库的最难受的地方，毕竟记录着自己的技术成长历程。<br>之后就了解到hexo，觉得hexo主题也很多，界面也很美观，博客也只是托管到github上，通过本地写好之后，生成部署即可，感觉用着不错。也不用担心服务器到期要更换、文章丢失的问题。目前该博客使用的主题是<strong>cactus</strong>，相信很多使用过hexo的同学都遇到过加载过慢的问题。上周自己终于忍无可忍，决心优化一下这个问题。当时自己就在想，自己明明使用github的时候，网页的加载速度并不是很慢（当然也没有多快），怎么加载个page页面会这么慢呢。</p>
+<p>下面就是优化的思路。想要解决为什么加载慢，大家都知道github服务器在境外，所以加载速度过慢，这个也是根本原因，所以很多同学就将hexo博客部署到自己的国内服务器，或者通过一些CDN进行加载，我觉得都太麻烦了，年纪大了，懒得折腾了。就打开了控制台看了一下：</p>
+<p><img src="/Users/flowerlake/Desktop/Screen Shot 2019-12-16 at 11.10.20.png" alt="Screen Shot 2019-12-16 at 11.10.20"></p>
+<p>相信大家看到这里就明白了，网站加载的之所以慢，主要是因为加载了一个300k的logo，以及一个800k的字体。这些占用了大量的时间进行加载。对于大一点的logo，我选择将其上传到一些 免费图床，我现在使用的图床软件iPic用着还不错。<br>字体的话，如果自己有服务器的话，可以开一个服务，然后加载一下，如果没有的话，在hexo主题的源码中，找到字体加载的地方删除即可。这个优化的方式都比较简单，但是也有效的提高了博客的访问速度。、</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&text=优化hexo博客的访问速度"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&is_video=false&description=优化hexo博客的访问速度"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=优化hexo博客的访问速度&body=Check out this article: http://yoursite.com/2019/12/16/优化hexo博客的访问速度/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&title=优化hexo博客的访问速度"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/16/优化hexo博客的访问速度/&name=优化hexo博客的访问速度&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 糖醋大白菜
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'flowerlake';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
