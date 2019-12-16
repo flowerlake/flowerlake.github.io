@@ -14,12 +14,12 @@
 <meta property="og:site_name" content="糖醋大白菜 の 后花园">
 <meta property="og:description" content="既然写到了这个，就简单说一下为什么把博客迁移到hexo。我的博客之前是直接使用了WordPress，托管在腾讯云上，当时自己的安全意识比较浅薄，数据库密码设置很简单，同时也是因为有侥幸意识，觉得我这么一个小站点应该没有什么人会去搞，数据库直接开放外部连接，密码设为passwd，也没有进行数据库备份的操作，然后就被人撞库，直接把整个数据库给删了。这都是通过查看服务器登录的日志看到的，当时网站崩溃，上">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-16%20at%2011.10.20.png">
-<meta property="og:updated_time" content="2019-12-16T03:16:32.865Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9yea89xtxj31nf0u0nau.jpg">
+<meta property="og:updated_time" content="2019-12-16T03:19:07.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优化hexo博客的访问速度">
 <meta name="twitter:description" content="既然写到了这个，就简单说一下为什么把博客迁移到hexo。我的博客之前是直接使用了WordPress，托管在腾讯云上，当时自己的安全意识比较浅薄，数据库密码设置很简单，同时也是因为有侥幸意识，觉得我这么一个小站点应该没有什么人会去搞，数据库直接开放外部连接，密码设为passwd，也没有进行数据库备份的操作，然后就被人撞库，直接把整个数据库给删了。这都是通过查看服务器登录的日志看到的，当时网站崩溃，上">
-<meta name="twitter:image" content="http://yoursite.com/Users/flowerlake/Desktop/Screen%20Shot%202019-12-16%20at%2011.10.20.png">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1g9yea89xtxj31nf0u0nau.jpg">
     
     
         
@@ -131,7 +131,7 @@
       
         <time datetime="2019-12-16T02:53:38.717Z" itemprop="datePublished">2019-12-16</time>
         
-        (Updated: <time datetime="2019-12-16T03:16:32.865Z" itemprop="dateModified">2019-12-16</time>)
+        (Updated: <time datetime="2019-12-16T03:19:07.452Z" itemprop="dateModified">2019-12-16</time>)
         
       
     </div>
@@ -153,7 +153,7 @@
   <div class="content" itemprop="articleBody">
     <p>既然写到了这个，就简单说一下为什么把博客迁移到hexo。我的博客之前是直接使用了WordPress，托管在腾讯云上，当时自己的安全意识比较浅薄，数据库密码设置很简单，同时也是因为有侥幸意识，觉得我这么一个小站点应该没有什么人会去搞，数据库直接开放外部连接，密码设为passwd，也没有进行数据库备份的操作，然后就被人撞库，直接把整个数据库给删了。这都是通过查看服务器登录的日志看到的，当时网站崩溃，上去看了一下日志信息，幸好还配置了保存正常登录的日志信息，就在access.log中看到了一个未知的来自东北的IP地址不断地尝试登录数据库，在某个时刻登陆成功，就明白了被人撞库了。上面积累了一年多的博客文章也都没有了，主要是WordPress提供后台直接编辑的功能，在本地也没有留下文章的备份，这个是被删库的最难受的地方，毕竟记录着自己的技术成长历程。<br>之后就了解到hexo，觉得hexo主题也很多，界面也很美观，博客也只是托管到github上，通过本地写好之后，生成部署即可，感觉用着不错。也不用担心服务器到期要更换、文章丢失的问题。目前该博客使用的主题是<strong>cactus</strong>，相信很多使用过hexo的同学都遇到过加载过慢的问题。上周自己终于忍无可忍，决心优化一下这个问题。当时自己就在想，自己明明使用github的时候，网页的加载速度并不是很慢（当然也没有多快），怎么加载个page页面会这么慢呢。</p>
 <p>下面就是优化的思路。想要解决为什么加载慢，大家都知道github服务器在境外，所以加载速度过慢，这个也是根本原因，所以很多同学就将hexo博客部署到自己的国内服务器，或者通过一些CDN进行加载，我觉得都太麻烦了，年纪大了，懒得折腾了。就打开了控制台看了一下：</p>
-<p><img src="/Users/flowerlake/Desktop/Screen Shot 2019-12-16 at 11.10.20.png" alt="Screen Shot 2019-12-16 at 11.10.20"></p>
+<p><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1g9yea89xtxj31nf0u0nau.jpg" alt="Screen Shot 2019-12-16 at 11.10.20"></p>
 <p>相信大家看到这里就明白了，网站加载的之所以慢，主要是因为加载了一个300k的logo，以及一个800k的字体。这些占用了大量的时间进行加载。对于大一点的logo，我选择将其上传到一些 免费图床，我现在使用的图床软件iPic用着还不错。<br>字体的话，如果自己有服务器的话，可以开一个服务，然后加载一下，如果没有的话，在hexo主题的源码中，找到字体加载的地方删除即可。这个优化的方式都比较简单，但是也有效的提高了博客的访问速度。、</p>
 
   </div>
