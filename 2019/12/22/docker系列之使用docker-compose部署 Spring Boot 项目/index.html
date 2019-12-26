@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="这篇文章讲一讲将项目容器化的实践，主要内容包括以下几个方面：  docker-compose部署spring boot项目 docker MongoDB的加密配置 谈一谈docker的使用、项目的部署等  docker-compose部署项目如果一个项目有很多依赖的环境，如各类数据库，同时又想使用docker这项虚拟化服务的技术，那么就可以尝试使用docker完成一次性部署。本文主要结合上次一个s">
+<meta name="keywords" content="docker-compose,网站运维,spring boot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目">
+<meta property="og:url" content="http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/index.html">
+<meta property="og:site_name" content="糖醋大白菜 の 后花园">
+<meta property="og:description" content="这篇文章讲一讲将项目容器化的实践，主要内容包括以下几个方面：  docker-compose部署spring boot项目 docker MongoDB的加密配置 谈一谈docker的使用、项目的部署等  docker-compose部署项目如果一个项目有很多依赖的环境，如各类数据库，同时又想使用docker这项虚拟化服务的技术，那么就可以尝试使用docker完成一次性部署。本文主要结合上次一个s">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1ga9vh7uw9mj30y00d6t9q.jpg">
+<meta property="og:updated_time" content="2019-12-26T01:36:52.893Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目">
+<meta name="twitter:description" content="这篇文章讲一讲将项目容器化的实践，主要内容包括以下几个方面：  docker-compose部署spring boot项目 docker MongoDB的加密配置 谈一谈docker的使用、项目的部署等  docker-compose部署项目如果一个项目有很多依赖的环境，如各类数据库，同时又想使用docker这项虚拟化服务的技术，那么就可以尝试使用docker完成一次性部署。本文主要结合上次一个s">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006tNbRwgy1ga9vh7uw9mj30y00d6t9q.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/12/16/优化hexo博客的访问速度/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&text=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&is_video=false&description=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目&body=Check out this article: http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&name=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-compose部署项目"><span class="toc-number">1.</span> <span class="toc-text">docker-compose部署项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dockercompose中-MongoDB的加密配置"><span class="toc-number">2.</span> <span class="toc-text">dockercompose中 MongoDB的加密配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#谈一谈docker的使用、项目的部署等"><span class="toc-number">3.</span> <span class="toc-text">谈一谈docker的使用、项目的部署等</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">糖醋大白菜 の 后花园</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-22T11:18:08.845Z" itemprop="datePublished">2019-12-22</time>
+        
+        (Updated: <time datetime="2019-12-26T01:36:52.893Z" itemprop="dateModified">2019-12-26</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/docker/">docker</a> › <a class="category-link" href="/categories/docker/Java/">Java</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/docker-compose/">docker-compose</a>, <a class="tag-link" href="/tags/spring-boot/">spring boot</a>, <a class="tag-link" href="/tags/网站运维/">网站运维</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这篇文章讲一讲将项目容器化的实践，主要内容包括以下几个方面：</p>
+<ol>
+<li>docker-compose部署spring boot项目</li>
+<li>docker MongoDB的加密配置</li>
+<li>谈一谈docker的使用、项目的部署等</li>
+</ol>
+<h3 id="docker-compose部署项目"><a href="#docker-compose部署项目" class="headerlink" title="docker-compose部署项目"></a>docker-compose部署项目</h3><p>如果一个项目有很多依赖的环境，如各类数据库，同时又想使用docker这项虚拟化服务的技术，那么就可以尝试使用docker完成一次性部署。本文主要结合上次一个spring boot 开发web的项目的实际经历来记录一下使用docker-compose部署项目的一些经验。<br>找到了一本docker的中文文档，其将docker定义为：</p>
+<blockquote>
+<p>Compose 定位是 「定义和运行多个 Docker 容器的应用（Defining and running multi-container Docker applications）」，负责实现对 Docker 容器集群的快速编排。其前身是开源项目 Fig。</p>
+</blockquote>
+<p>也就是说利用docker-compose可以快速打包多个docker应用，我们的项目中需要用到 Nginx+MySQL+MongoDB+spring boot项目，所以docker-compose也就是对这些容易进行打包，首先来看一下一个docker-compose.yaml的模板文件内容吧。<br><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">yaml</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  nginx:</span></span><br><span class="line"><span class="attr">   container_name:</span> <span class="string">v-nginx</span></span><br><span class="line"><span class="attr">   image:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">   restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">   ports:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="number">80</span><span class="string">:80</span></span><br><span class="line"><span class="bullet">   -</span> <span class="number">443</span><span class="string">:443</span></span><br><span class="line"><span class="attr">   volumes:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/spring-website-docker/nginx/conf.d:/etc/nginx/conf.d</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/nginx-log:/var/log/nginx</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">/etc/localtime:/etc/localtime</span></span><br><span class="line">    </span><br><span class="line"><span class="attr">  mysql:</span></span><br><span class="line"><span class="attr">   container_name:</span> <span class="string">mymysql</span></span><br><span class="line"><span class="attr">   image:</span> <span class="string">mysql</span></span><br><span class="line"><span class="attr">   environment:</span></span><br><span class="line"><span class="attr">    MYSQL_DATABASE:</span> <span class="string">java_web</span></span><br><span class="line"><span class="attr">    MYSQL_ROOT_PASSWORD:</span> <span class="string">******</span></span><br><span class="line"><span class="attr">    MYSQL_ROOT_HOST:</span> <span class="string">'%'</span></span><br><span class="line"><span class="attr">   ports:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">"27018:3306"</span></span><br><span class="line"><span class="attr">   volumes:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/spring-website-docker/mysql-entrypoint:/docker-entrypoint-initdb.d</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/create_user_table.sql:/create_user_table.sql</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">/etc/localtime:/etc/localtime</span></span><br><span class="line"><span class="attr">   restart:</span> <span class="string">always</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  mongo:</span></span><br><span class="line"><span class="attr">   container_name:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">   image:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">   environment:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">MONGO_INITDB_ROOT_USERNAME=root</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">MONGO_INITDB_ROOT_PASSWORD=*******</span></span><br><span class="line"><span class="attr">   volumes:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/mongodb:/data/db</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/mongo-log:/data/log</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/spring-website-docker/mongo-entrypoint:/docker-entrypoint-initdb.d</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">/etc/localtime:/etc/localtime</span></span><br><span class="line"><span class="attr">   ports:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"27018:27017"</span></span><br><span class="line"><span class="attr">   restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">   command:</span> <span class="string">mongod</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  spring-blog-website:</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    build:</span> <span class="string">./spring-blog-website</span></span><br><span class="line"><span class="attr">    working_dir:</span> <span class="string">/spring-blog-website</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">./spring-blog-website:/spring-blog-website</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/.m2:/root/.m2</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">~/upload-dir:/spring-blog-website/upload-dir</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">/etc/localtime:/etc/localtime</span></span><br><span class="line"><span class="attr">    expose:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"8080"</span></span><br><span class="line"><span class="attr">    depends_on:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">nginx</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">mysql</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">    command:</span> <span class="string">mvn</span> <span class="string">clean</span> <span class="attr">spring-boot:run</span> <span class="bullet">-Dspring-boot.run.profiles=docker</span></span><br></pre></td></tr></table></figure></div></p>
+<p>简单分析一下上面的文件内容，有两组内容，分别是version和services，services下面包含着所有要打包的应用的名称，也是容易的名称，如果容器是从官网上pull下来的，那么容器名就是pull下来的容器名。<br>像container_name 是自己定义的。有几组映射关系，像ports的映射、volumes的映射，简单将映射简化为&lt;A:B&gt;，A为主机的资源，B为容器内的资源。<br><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">yaml</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">"27018:3306"</span></span><br></pre></td></tr></table></figure></div></p>
+<p>这组映射的意思就是把主机的27018端口映射到mymysql容器的3306端口下。<br>而volumes的映射是将磁盘的内容同步映射。有了上面的基本了解，还有一个是command指令，意思是在容器开启之后，自动执行的命令。</p>
+<p>关于docker-compose的部署在文档中写的也很清楚，可以参见<a href="https://yeasy.gitbooks.io/docker_practice/compose/" target="_blank" rel="noopener">docker compose</a>。重点看一下命令说明那块的内容，里面讲的很详细</p>
+<p>下面再说一下docker-compose中如何组织加密MongoDB的部署</p>
+<h3 id="dockercompose中-MongoDB的加密配置"><a href="#dockercompose中-MongoDB的加密配置" class="headerlink" title="dockercompose中 MongoDB的加密配置"></a>dockercompose中 MongoDB的加密配置</h3><p>如果没有docker-compose，我们想要配置一个加密的MongoDB数据库，可以先不加密开启，然后添加一个admin数据库用户，然后再通过admin这个账户创建其他一般数据库的账户。如我在本地开启一个加密的MongoDB的数据库，只需要下面几步内容：</p>
+<ol>
+<li><p>在admin数据库中设置了管理员账户，用来管理其他库<br>db.createUser({ user: “blogweb”, pwd: “password”, roles: [{ role: “userAdminAnyDatabase”, db: “admin” }] i})</p>
+</li>
+<li><p>然后在MongoDB的配置文件中开启安全选项，这一步不做也可以，直接重启MongoDB数据，在重启命令后面加上–auth，然后再添加其他数据库的账号信息</p>
+</li>
+<li><p>添加其他数据库的加密账户，如abcd数据库的账户：<br>db.createUser({ user: “qwerty”, pwd: “password123.”, roles: [{ role: “dbOwner”, db:”abcd” }] })<br>然后就可以使用这个账号登录该数据库了，这个时候设置了admin的账户，即使知道了admin的账户，也进不去java_web的账户，从而提高数据库的安全性。</p>
+</li>
+</ol>
+<p>参考资料：<a href="https://juejin.im/post/5b0519cf518825426539d05e" target="_blank" rel="noopener">https://juejin.im/post/5b0519cf518825426539d05e</a></p>
+<p>但是在docker-compose中，我们是利用docker开启mongo服务的，没有–auth这种命令选项，那么该如何做呢？请看service代码：<br><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">yaml</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mongo:</span></span><br><span class="line"><span class="attr">   container_name:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">   image:</span> <span class="string">mongo</span></span><br><span class="line"><span class="attr">   environment:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">MONGO_INITDB_ROOT_USERNAME=root</span></span><br><span class="line"><span class="bullet">        -</span> <span class="string">MONGO_INITDB_ROOT_PASSWORD=*******</span></span><br><span class="line"><span class="attr">   volumes:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/mongodb:/data/db</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/mongo-log:/data/log</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">~/spring-website-docker/mongo-entrypoint:/docker-entrypoint-initdb.d</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">/etc/localtime:/etc/localtime</span></span><br><span class="line"><span class="attr">   ports:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"27018:27017"</span></span><br><span class="line"><span class="attr">   restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">   command:</span> <span class="string">mongod</span></span><br></pre></td></tr></table></figure></div></p>
+<p>即在mongo的environment中添加一个root账户，就不需要手动开启–auth选项了。等待容器开启之后，在command中自动执行脚本mongo.sh，或者手动执行也可以。<br><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">sh</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mongo.sh</span></span><br><span class="line"><span class="meta">#!/usr/bin/env bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Creating mongo users..."</span></span><br><span class="line">mongo admin --host localhost -u root -p ******* --<span class="built_in">eval</span> <span class="string">"db.createUser(&#123;user: 'admin', pwd: 'password', roles: [&#123;role: 'userAdminAnyDatabase', db: 'admin'&#125;]&#125;);"</span></span><br><span class="line">mongo admin -u root -p ******* &lt;&lt; EOF</span><br><span class="line">use abcd</span><br><span class="line">db.createUser(&#123;user: <span class="string">'qwerty'</span>, <span class="built_in">pwd</span>: <span class="string">'password123'</span>, roles:[&#123;role:<span class="string">'readWrite'</span>,db:<span class="string">'abcd'</span>&#125;]&#125;)</span><br><span class="line">EOF</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Mongo users created."</span></span><br></pre></td></tr></table></figure></div></p>
+<p>手动执行脚本的时候，docker命令为：<strong>sudo docker exec -it 容器名或者是容器ID /bin/bash</strong>。<br>在上述执行的时候，可能会出现<strong>message: ‘Authentication failed.’, mongo-express_1  |   ok: 0,</strong>，类似的问题，这个时候不要怀疑是你的root账户没有生效，是因为你的volume中，有以前未加密的数据库文件，就导致了这个错误。这个时候只需要使用rm -r清空你的mongodb数据库的存储文件即可，或者docker-compose启动时加上下面的参数</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">shell</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up --force-recreate --renew-anon-volumes</span><br></pre></td></tr></table></figure></div>
+<p>参考资料</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/53509236/mongo-authentication-inside-docker" target="_blank" rel="noopener">Mongo authentication inside Docker</a></li>
+</ul>
+<h3 id="谈一谈docker的使用、项目的部署等"><a href="#谈一谈docker的使用、项目的部署等" class="headerlink" title="谈一谈docker的使用、项目的部署等"></a>谈一谈docker的使用、项目的部署等</h3><p>在之前的一篇文章中，我提到了能不能把整个项目打包成一个容器，在后续的测试、版本更新的过程中，我有了一些新的体会。<br>比如在该项目中，MongoDB和MySQL数据库容器都已经配置完毕，里面已经存有一些数据，但是我要是想更新我的项目代码，在之前的那种想法中，数据库会重新初始化，里面的数据也就不在了，这在实际的生产中明显是不可行的。现在的这种方式，利用docker-compose部署完项目后，假如我的spring boot项目的代码进行了修改，要重新部署，只需要将对应的代码传到服务器中项目的位置，其他的配置都不需要改变，还是相当方便的，还不知道公司里面发布代码是怎么个流程，如果有小伙伴在公司上班，还请告知一二。</p>
+<p>那是不是第一种想法在现实中就没有应用呢？当然不是，wiznote就是个案例，wiznote在官网上提供了一个2g左右大小的docker容器，只需要一键即可将其部署到自己的服务器上，实现自己的服务，还是相当不错的，只不过是占用的内存稍多了些。这个容器就是将所有的组件打包到一个容器中，实现一键部署。如果你的代码很稳定，不需要改变，那么可以使用这种方式。</p>
+<p><a href="https://tva1.sinaimg.cn/large/006tNbRwgy1ga9vh7uw9mj30y00d6t9q.jpg" data-fancybox="group" data-caption="Screen Shot 2019-12-26 at 09.34.50" class="fancybox"><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1ga9vh7uw9mj30y00d6t9q.jpg" alt="Screen Shot 2019-12-26 at 09.34.50" title="Screen Shot 2019-12-26 at 09.34.50"></a></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-compose部署项目"><span class="toc-number">1.</span> <span class="toc-text">docker-compose部署项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dockercompose中-MongoDB的加密配置"><span class="toc-number">2.</span> <span class="toc-text">dockercompose中 MongoDB的加密配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#谈一谈docker的使用、项目的部署等"><span class="toc-number">3.</span> <span class="toc-text">谈一谈docker的使用、项目的部署等</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&text=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&is_video=false&description=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目&body=Check out this article: http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&title=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/12/22/docker系列之使用docker-compose部署 Spring Boot 项目/&name=docker系列之使用docker-compose部署Nginx+MySQL+MongoDB+Spring Boot项目&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 糖醋大白菜
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'flowerlake';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
