@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="google-site-verification" content="1A53JNVAb5cVMzo7F3mX6qx7FdXoQGzD4kw6gWUAH9o">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="本篇文章记录一下使用git中遇见的问题及解决方法。 有两种方式来上传到GitHub上：1、使用开发工具自带的版本控制插件比如 webstorm自带的版本控制。这个首先在 File-&amp;gt;Setting-&amp;gt;GitHub, 在里面输入Host、账号和密码即可。git注意配置一下本机的git路径。  File-&amp;gt;Setting-&amp;gt;Version Control-&amp;gt;GitHub">
+<meta name="keywords" content="nlp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git使用总结">
+<meta property="og:url" content="http://yoursite.com/2019/03/20/git使用总结/index.html">
+<meta property="og:site_name" content="糖醋大白菜 の 后花园">
+<meta property="og:description" content="本篇文章记录一下使用git中遇见的问题及解决方法。 有两种方式来上传到GitHub上：1、使用开发工具自带的版本控制插件比如 webstorm自带的版本控制。这个首先在 File-&amp;gt;Setting-&amp;gt;GitHub, 在里面输入Host、账号和密码即可。git注意配置一下本机的git路径。  File-&amp;gt;Setting-&amp;gt;Version Control-&amp;gt;GitHub">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://www.getyo.cn/wp-content/uploads/2019/03/webstormSetting.jpg">
+<meta property="og:updated_time" content="2020-01-02T01:17:12.339Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git使用总结">
+<meta name="twitter:description" content="本篇文章记录一下使用git中遇见的问题及解决方法。 有两种方式来上传到GitHub上：1、使用开发工具自带的版本控制插件比如 webstorm自带的版本控制。这个首先在 File-&amp;gt;Setting-&amp;gt;GitHub, 在里面输入Host、账号和密码即可。git注意配置一下本机的git路径。  File-&amp;gt;Setting-&amp;gt;Version Control-&amp;gt;GitHub">
+<meta name="twitter:image" content="https://www.getyo.cn/wp-content/uploads/2019/03/webstormSetting.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>git使用总结</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/04/16/通过 Tipdm 的数据处理获得的数据预处理的一些个方法及流程/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/01/20/2018年度总结/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/20/git使用总结/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/20/git使用总结/&text=git使用总结"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/20/git使用总结/&is_video=false&description=git使用总结"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=git使用总结&body=Check out this article: http://yoursite.com/2019/03/20/git使用总结/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/20/git使用总结/&name=git使用总结&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        git使用总结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">糖醋大白菜 の 后花园</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-20T03:25:43.000Z" itemprop="datePublished">2019-03-20</time>
+        
+        (Updated: <time datetime="2020-01-02T01:17:12.339Z" itemprop="dateModified">2020-01-02</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/自然语言处理/">自然语言处理</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/nlp/">nlp</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>本篇文章记录一下使用git中遇见的问题及解决方法。</p>
+<p>有两种方式来上传到GitHub上：<br>1、使用开发工具自带的版本控制插件<br>比如 webstorm自带的版本控制。这个首先在 File-&gt;Setting-&gt;GitHub, 在里面输入Host、账号和密码即可。git注意配置一下本机的git路径。</p>
+<p><img src="https://www.getyo.cn/wp-content/uploads/2019/03/webstormSetting.jpg" alt></p>
+<p>File-&gt;Setting-&gt;Version Control-&gt;GitHub</p>
+<p>2、 在控制台中使用git进行版本控制<br>git init（初始化项目）<br>git add filename.xxx (这里是文件，文件夹的话需要在add后面加上-f)<br>git commit “some words to describe this modification”<br>git push -u origin master (这里是指上传到当前的master分支)  </p>
+<p>创建一个初始的仓库后会有怎么上传代码的提示，这里就不再赘述。<br>还有一个问题如下：</p>
+<p>在push的过程中，出现了这个错误。<br><a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>: Permission denied (publickey). fatal: Could not read from remote repository.<br>这是因为在创建完本地的ssh私钥之后，GitHub那边的服务器并没有连接你的钥匙，这样两者是无法进行通信的，因此在使用ssh-kengen船舰私钥之后还要把私钥的内容加入到你的GitHub账号里。在GitHub上具体的描述。<br>解决链接：<br><a href="https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" target="_blank" rel="noopener">https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent</a></p>
+<p>另附上git的官网学习链接： <a href="https://git-scm.com/book/zh/v2/" target="_blank" rel="noopener">https://git-scm.com/book/zh/v2/</a></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/20/git使用总结/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/20/git使用总结/&text=git使用总结"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/03/20/git使用总结/&is_video=false&description=git使用总结"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=git使用总结&body=Check out this article: http://yoursite.com/2019/03/20/git使用总结/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/03/20/git使用总结/&title=git使用总结"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/03/20/git使用总结/&name=git使用总结&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 糖醋大白菜
+  </div>
+  <div class="footer-right">
+    <span id="busuanzi_container_site_uv">本站总访客数 <span id="busuanzi_value_site_uv"></span> 人</span>
+    <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
+    <!-- <nav>
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </nav> -->
+  </div>
+  
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'flowerlake';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
