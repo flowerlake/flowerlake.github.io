@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="google-site-verification" content="1A53JNVAb5cVMzo7F3mX6qx7FdXoQGzD4kw6gWUAH9o">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Windows 安全机制汇总（在《0day安全-软件分析技术》中第9章，表9-1-1） GS 编译技术：针对栈中函数的返回地址被覆盖这一攻击手法，在函数返回地址前加入security cookie，在函数返回时要先检查security cookie是否被覆盖，操作系统的栈溢出会变得异常艰难，软件可以选择在编译的时候是否开启该选项。 S.E.H 机制：SEH机制是异常处理机制，用来捕获异常 ，攻击者">
+<meta name="keywords" content="coder">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漏洞利用专有概念记录(持续更新中)">
+<meta property="og:url" content="http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/index.html">
+<meta property="og:site_name" content="糖醋大白菜 の 后花园">
+<meta property="og:description" content="Windows 安全机制汇总（在《0day安全-软件分析技术》中第9章，表9-1-1） GS 编译技术：针对栈中函数的返回地址被覆盖这一攻击手法，在函数返回地址前加入security cookie，在函数返回时要先检查security cookie是否被覆盖，操作系统的栈溢出会变得异常艰难，软件可以选择在编译的时候是否开启该选项。 S.E.H 机制：SEH机制是异常处理机制，用来捕获异常 ，攻击者">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-02-12T10:14:33.275Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="漏洞利用专有概念记录(持续更新中)">
+<meta name="twitter:description" content="Windows 安全机制汇总（在《0day安全-软件分析技术》中第9章，表9-1-1） GS 编译技术：针对栈中函数的返回地址被覆盖这一攻击手法，在函数返回地址前加入security cookie，在函数返回时要先检查security cookie是否被覆盖，操作系统的栈溢出会变得异常艰难，软件可以选择在编译的时候是否开启该选项。 S.E.H 机制：SEH机制是异常处理机制，用来捕获异常 ，攻击者">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>漏洞利用专有概念记录(持续更新中)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/05/命令集合(持续更新)/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/01/02/2019年度总结&2020年度规划/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&text=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&is_video=false&description=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=漏洞利用专有概念记录(持续更新中)&body=Check out this article: http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&name=漏洞利用专有概念记录(持续更新中)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        漏洞利用专有概念记录(持续更新中)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">糖醋大白菜 の 后花园</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-05T04:13:12.850Z" itemprop="datePublished">2020-02-05</time>
+        
+        (Updated: <time datetime="2020-02-12T10:14:33.275Z" itemprop="dateModified">2020-02-12</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/安全渗透/">安全渗透</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>Windows 安全机制汇总（在《0day安全-软件分析技术》中第9章，表9-1-1）</strong></p>
+<p>GS 编译技术：针对栈中函数的返回地址被覆盖这一攻击手法，在函数返回地址前加入security cookie，在函数返回时要先检查security cookie是否被覆盖，操作系统的栈溢出会变得异常艰难，软件可以选择在编译的时候是否开启该选项。</p>
+<p>S.E.H 机制：SEH机制是异常处理机制，用来捕获异常 ，攻击者一般会将进行异常处理的程序的地址进行覆盖，从而达到执行其代码的目的。</p>
+<p>DEP：data execution protection ，数据执行保护。将数据标记为不可执行，解决了指令和数据未区分开的问题。</p>
+<p>ASLR：address space layout random，地址空间分布随机化，将某些关键的模块的地址随机化。</p>
+<p>SEHOP：structure exception handler overwrite protection , SEH的系统级覆盖写保护机制，具体怎么保护的，再议。</p>
+<p><strong> 0x63756620  代码为Windows下   “ fuc”   的ASCII编码。</strong></p>
+<p><strong>攻击C++虚函数的核心思想：</strong></p>
+<p>如果存在栈溢出的漏洞，查看是否能够修改虚表指针或是虚表中的虚函数指针，如果可以，即可以将虚表指针（或是虚表中的虚函数指针）指向shellcode的地址。这就是攻击C++虚函数的核心思想。</p>
+<p><strong>程序加载到内存中逆向出来的段的内容：</strong></p>
+<p>idata: 明显是一个Imports函数的代码段，这里集中所有外部函数地址，代码中会先跳到该地址后再执行，PE文件加载器在开始会获取真实的函数地址来修补idata段中的函数地址。<br>data: 这个段存放程序的全局数据、全局常量等。<br>rdata: 名字上看就是资源数据段，程序用到什么资源数据都在这里，资源包括你自己封包的，也包括开发工具自动封包的。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&text=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&is_video=false&description=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=漏洞利用专有概念记录(持续更新中)&body=Check out this article: http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&title=漏洞利用专有概念记录(持续更新中)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/02/05/漏洞利用专有概念记录(持续更新中)/&name=漏洞利用专有概念记录(持续更新中)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 糖醋大白菜
+  </div>
+  <div class="footer-right">
+    <span id="busuanzi_container_site_uv">本站总访客数 <span id="busuanzi_value_site_uv"></span> 人</span>
+    <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
+    <!-- <nav>
+      <ul>
+         
+          <li><a href="/">HOME</a></li>
+         
+          <li><a href="/archives/">ARTICLES</a></li>
+         
+          <li><a href="/categories/">CATEGORIE</a></li>
+         
+          <li><a href="/tags/">TAGs</a></li>
+         
+          <li><a href="/about/">ABOUT</a></li>
+        
+      </ul>
+    </nav> -->
+  </div>
+  
+</footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    </div>
+    <!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+    <!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<!-- clipboard -->
+
+  <script src="/lib/clipboard/clipboard.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'flowerlake';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
